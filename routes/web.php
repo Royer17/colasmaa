@@ -14,6 +14,35 @@
 
 //Route::get('/login', 'Auth\LoginController@showLoginForm');
 
+//SISTEMA COLAS-------
+
+Route::group(["namespace" => "Colas"], function () {
+    // Route::get('/', 'TicketController@index')->name('pages.home');
+    Route::get('/', ['as' => 'ticketera.index', 'uses' => 'TicketController@index']);
+    Route::post('/', ['as' => 'ticketera.create', 'uses' => 'TicketController@create']);
+    
+    // ventanilla
+    $router->get('ventanilla', ['as' => 'ventanilla.index', 'uses' => 'VentanillaController@index']);
+    $router->get('enespera', ['as' => 'ventanilla.enespera', 'uses' => 'VentanillaController@enespera']);
+    $router->get('enatencion', ['as' => 'ventanilla.enatencion', 'uses' => 'VentanillaController@enatencion']);
+    $router->get('encierre', ['as' => 'ventanilla.encierre', 'uses' => 'VentanillaController@encierre']);
+
+    // monitor
+    $router->get('monitor', ['as' => 'monitor.index', 'uses' => 'MonitorController@index']);
+    $router->get('monitorcarga', ['as' => 'monitor.carga', 'uses' => 'MonitorController@carga']);
+    $router->get('verificar', ['as' => 'monitor.verificar', 'uses' => 'MonitorController@verificar']);
+
+    //Prueba
+    $router->get('prueba', ['as' => 'prueba.index', 'uses' => 'PruebaController@index']);
+
+});
+
+
+
+//-------------------
+
+
+
 Route::get('/panel',
     ['middleware' => ['guest'],
         'uses' => 'Auth\LoginController@showLoginForm']);
