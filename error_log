@@ -1,0 +1,39 @@
+[19-Aug-2021 14:50:24 America/New_York] PHP Warning:  Uncaught ErrorException: require(/home/rodjer2021/public_html/mdcn/vendor/composer/../google/apiclient-services/autoload.php): failed to open stream: No such file or directory in /home/rodjer2021/public_html/mdcn/vendor/composer/autoload_real.php:71
+Stack trace:
+#0 /home/rodjer2021/public_html/mdcn/vendor/composer/autoload_real.php(71): Composer\Util\ErrorHandler::handle(2, 'require(/home/r...', '/home/rodjer202...', 71, Array)
+#1 /home/rodjer2021/public_html/mdcn/vendor/composer/autoload_real.php(71): require()
+#2 /home/rodjer2021/public_html/mdcn/vendor/composer/autoload_real.php(61): composerRequirefbaabac7af5b2f6c88fb738ccb643266('1f87db08236948d...', '/home/rodjer202...')
+#3 /home/rodjer2021/public_html/mdcn/vendor/autoload.php(7): ComposerAutoloaderInitfbaabac7af5b2f6c88fb738ccb643266::getLoader()
+#4 /home/rodjer2021/public_html/mdcn/vendor/kylekatarnls/update-helper/src/UpdateHelper/UpdateHelper.php(143): include_once('/home/rodjer202...')
+#5 /home/rodjer2021/public_html/mdcn/vendor/kylekatarnls/update in /home/rodjer2021/public_html/mdcn/vendor/composer/autoload_real.php on line 71
+[19-Aug-2021 14:50:24 America/New_York] PHP Fatal error:  composerRequirefbaabac7af5b2f6c88fb738ccb643266(): Failed opening required '/home/rodjer2021/public_html/mdcn/vendor/composer/../google/apiclient-services/autoload.php' (include_path='.:/opt/alt/php73/usr/share/pear') in /home/rodjer2021/public_html/mdcn/vendor/composer/autoload_real.php on line 71
+[19-Aug-2021 14:50:47 America/New_York] PHP Warning:  Uncaught ErrorException: require(/home/rodjer2021/public_html/mdcn/vendor/composer/../google/apiclient-services/autoload.php): failed to open stream: No such file or directory in /home/rodjer2021/public_html/mdcn/vendor/composer/autoload_real.php:71
+Stack trace:
+#0 /home/rodjer2021/public_html/mdcn/vendor/composer/autoload_real.php(71): Composer\Util\ErrorHandler::handle(2, 'require(/home/r...', '/home/rodjer202...', 71, Array)
+#1 /home/rodjer2021/public_html/mdcn/vendor/composer/autoload_real.php(71): require()
+#2 /home/rodjer2021/public_html/mdcn/vendor/composer/autoload_real.php(61): composerRequirefbaabac7af5b2f6c88fb738ccb643266('1f87db08236948d...', '/home/rodjer202...')
+#3 /home/rodjer2021/public_html/mdcn/vendor/autoload.php(7): ComposerAutoloaderInitfbaabac7af5b2f6c88fb738ccb643266::getLoader()
+#4 /home/rodjer2021/public_html/mdcn/vendor/kylekatarnls/update-helper/src/UpdateHelper/UpdateHelper.php(143): include_once('/home/rodjer202...')
+#5 /home/rodjer2021/public_html/mdcn/vendor/kylekatarnls/update in /home/rodjer2021/public_html/mdcn/vendor/composer/autoload_real.php on line 71
+[19-Aug-2021 14:50:47 America/New_York] PHP Fatal error:  composerRequirefbaabac7af5b2f6c88fb738ccb643266(): Failed opening required '/home/rodjer2021/public_html/mdcn/vendor/composer/../google/apiclient-services/autoload.php' (include_path='.:/opt/alt/php73/usr/share/pear') in /home/rodjer2021/public_html/mdcn/vendor/composer/autoload_real.php on line 71
+[19-Aug-2021 16:36:57 America/New_York] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Application' not found in /home/rodjer2021/public_html/mdcn/bootstrap/app.php:14
+Stack trace:
+#0 /home/rodjer2021/public_html/mdcn/artisan(20): require_once()
+#1 {main}
+  thrown in /home/rodjer2021/public_html/mdcn/bootstrap/app.php on line 14
+[23-Aug-2021 02:00:59 America/New_York] PHP Warning:  require(/home/rodjer2021/public_html/mdcn/vendor/autoload.php): failed to open stream: No such file or directory in /home/rodjer2021/public_html/mdcn/artisan on line 18
+[23-Aug-2021 02:00:59 America/New_York] PHP Warning:  require(/home/rodjer2021/public_html/mdcn/vendor/autoload.php): failed to open stream: No such file or directory in /home/rodjer2021/public_html/mdcn/artisan on line 18
+[23-Aug-2021 02:00:59 America/New_York] PHP Fatal error:  require(): Failed opening required '/home/rodjer2021/public_html/mdcn/vendor/autoload.php' (include_path='.:/opt/alt/php73/usr/share/pear') in /home/rodjer2021/public_html/mdcn/artisan on line 18
+[23-Aug-2021 02:03:02 America/New_York] PHP Warning:  require(/home/rodjer2021/public_html/mdcn/vendor/autoload.php): failed to open stream: No such file or directory in /home/rodjer2021/public_html/mdcn/artisan on line 18
+[23-Aug-2021 02:03:02 America/New_York] PHP Warning:  require(/home/rodjer2021/public_html/mdcn/vendor/autoload.php): failed to open stream: No such file or directory in /home/rodjer2021/public_html/mdcn/artisan on line 18
+[23-Aug-2021 02:03:02 America/New_York] PHP Fatal error:  require(): Failed opening required '/home/rodjer2021/public_html/mdcn/vendor/autoload.php' (include_path='.:/opt/alt/php73/usr/share/pear') in /home/rodjer2021/public_html/mdcn/artisan on line 18
+[23-Aug-2021 02:10:19 America/New_York] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Application' not found in /home/rodjer2021/public_html/mdcn/bootstrap/app.php:14
+Stack trace:
+#0 /home/rodjer2021/public_html/mdcn/artisan(20): require_once()
+#1 {main}
+  thrown in /home/rodjer2021/public_html/mdcn/bootstrap/app.php on line 14
+[23-Aug-2021 11:15:25 America/New_York] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Application' not found in /home/rodjer2021/public_html/mdcn/bootstrap/app.php:14
+Stack trace:
+#0 /home/rodjer2021/public_html/mdcn/artisan(20): require_once()
+#1 {main}
+  thrown in /home/rodjer2021/public_html/mdcn/bootstrap/app.php on line 14

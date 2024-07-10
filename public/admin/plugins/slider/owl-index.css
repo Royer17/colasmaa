@@ -1,0 +1,17 @@
+#owl-demo .item{
+    margin: 3px;
+}
+#owl-demo .item img{
+    display: block;
+    width: 90%;
+    height: auto;
+}
+
+#owl-demo-exp .item{
+    margin: 3px;
+}
+#owl-demo-exp .item img{
+    display: block;
+    width: 90%;
+    height: auto;
+}

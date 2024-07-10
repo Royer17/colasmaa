@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Roboto", Arial;
+}
+
+.title {
+  @apply text-dark-blue text-[24px] md:text-[32px] block text-center md:text-left font-bold mb-3;
+}
+
+.section {
+  @apply mx-1 mb-2 md:mx-0;
+}
+
+.swiper {
+  @apply swiper-base;
+}
+
+.service-card-base {
+  @apply max-w-52 md:max-w-max w-full rounded-xl;
+}
+
+.service-card-1 {
+  @apply service-card-base text-dark-blue;
+}
+
+.service-card-2 {
+  @apply service-card-base text-white;
+}
+
+.swiper-base {
+  @apply w-full;
+}
+
+.main-swiper {
+  @apply swiper-base aspect-auto max-h-[10rem] md:max-h-[33rem];
+}
+
+.links-swiper {
+  @apply swiper-base;
+}
+
+.news-slide,
+.works-slide {
+  @apply flex gap-4 p-5;
+}
+
+.custom-next,
+.custom-prev {
+  @apply absolute top-1/2 transform -translate-y-1/2 w-8 h-10 flex items-center justify-center cursor-pointer z-10;
+}
+.custom-next {
+  @apply right-[-7.5px];
+}
+.custom-prev {
+  @apply left-[-7.5px];
+}
+.custom-next svg,
+.custom-prev svg {
+  @apply w-6 h-6;
+}
+
+.slide-item {
+  @apply flex items-center gap-3 bg-white w-fit h-full p-5 text-dark-blue cursor-pointer hover:bg-dark-blue;
+}
+
+.slide-item p {
+  @apply text-dark-blue;
+}
+
+.swiper-slide-thumb-active .slide-item {
+  @apply bg-dark-blue;
+}
+
+.swiper-slide-thumb-active .slide-item p {
+  @apply text-white;
+}
