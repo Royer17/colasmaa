@@ -1,0 +1,48 @@
+.fondo1 {
+    margin:0;
+    padding:0;
+    background: rgb(25,64,115);
+    background: linear-gradient(105deg, rgba(25,64,115,1) 50%, rgba(255,255,255,1) 50%);
+}
+
+.fondo2 {
+    background-color: black;
+}
+
+.img-dni{
+    height: auto;
+    width: 50%;
+}
+
+.btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 24px;
+    line-height: 1.33;
+}
+.btn-enviar {
+    background-color:#D7F205;
+    color:#194073;
+    width: 100px;
+    font-weight: bolder;
+    height: 100px;
+    padding: 10px 16px;
+    border-radius: 60px;
+    font-size: 36px;
+    border:none;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    padding: 6px 0px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.42857;
+}
+
+
+

@@ -16,31 +16,30 @@
 
 //SISTEMA COLAS-------
 
-Route::group(["namespace" => "Colas"], function () {
+Route::group(["namespace" => "Colas", "middleware" => ["auth.personalized"]], function () {
     // Route::get('/', 'TicketController@index')->name('pages.home');
-    Route::get('/', ['as' => 'ticketera.index', 'uses' => 'TicketController@index']);
-    Route::post('/', ['as' => 'ticketera.create', 'uses' => 'TicketController@create']);
+    Route::get('/', 'TicketController@index');
+    Route::post('/', 'TicketController@create');
     
     // ventanilla
-    $router->get('ventanilla', ['as' => 'ventanilla.index', 'uses' => 'VentanillaController@index']);
-    $router->get('enespera', ['as' => 'ventanilla.enespera', 'uses' => 'VentanillaController@enespera']);
-    $router->get('enatencion', ['as' => 'ventanilla.enatencion', 'uses' => 'VentanillaController@enatencion']);
-    $router->get('encierre', ['as' => 'ventanilla.encierre', 'uses' => 'VentanillaController@encierre']);
+    Route::get('ventanilla', 'VentanillaController@index');
+    Route::get('enespera', 'VentanillaController@enespera');
+    Route::get('enatencion', 'VentanillaController@enatencion');
+    Route::get('encierre', 'VentanillaController@encierre');
 
     // monitor
-    $router->get('monitor', ['as' => 'monitor.index', 'uses' => 'MonitorController@index']);
-    $router->get('monitorcarga', ['as' => 'monitor.carga', 'uses' => 'MonitorController@carga']);
-    $router->get('verificar', ['as' => 'monitor.verificar', 'uses' => 'MonitorController@verificar']);
-
+    Route::get('monitor', 'MonitorController@index');
+    Route::get('monitorcarga', 'MonitorController@carga');
+    Route::get('verificar', 'MonitorController@verificar');
+    
     //Prueba
-    $router->get('prueba', ['as' => 'prueba.index', 'uses' => 'PruebaController@index']);
+    Route::get('prueba', ['as' => 'prueba.index', 'uses' => 'PruebaController@index']);
 
 });
 
 
 
 //-------------------
-
 
 
 Route::get('/panel',
@@ -50,109 +49,109 @@ Route::get('/panel',
 Route::post('/login', 'Auth\LoginController@authenticate');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('/', 'PageController@home')->name('pages.home');
-Route::prefix('distrito')->group(function(){
-    Route::get('historia', 'DistrictController@History')->name('pages.district.history');
-    Route::get('turismo', 'DistrictController@tourism');
+// Route::get('/', 'PageController@home')->name('pages.home');
+// Route::prefix('distrito')->group(function(){
+//     Route::get('historia', 'DistrictController@History')->name('pages.district.history');
+//     Route::get('turismo', 'DistrictController@tourism');
 
-});
+// });
 
-Route::get('/municipalidad/funcionarios', 'MunicipalityController@officials_view');
-Route::get('/municipalidad/directorio', 'MunicipalityController@directory_view');
-Route::get('/municipalidad/planeamiento-y-organizacion', 'MunicipalityController@planning_and_organization_view');
-Route::get('/municipalidad/directivas', 'MunicipalityController@directives_view');
-Route::get('/municipalidad/galeria-de-fotos', 'MunicipalityController@photos_gallery_view');
-
-
-Route::prefix('municipalidad')->group(function(){
-    Route::get('mision-y-vision', 'MunicipalityController@missionVision')->name('pages.municipality.mission-vision');
-    Route::get('alcalde', 'MunicipalityController@mayor')->name('pages.municipality.mayor');
-    Route::get('concejo-municipal', 'MunicipalityController@cityCouncil')->name('pages.municipality.city-council');
-    Route::get('comisiones', 'MunicipalityController@commissions')->name('pages.municipality.commissions');
-    // Route::get('funcionarios', 'MunicipalityController@officials')->name('pages.municipality.officials');
-    Route::get('organigrama', 'MunicipalityController@organizationChart')->name('pages.municipality.organization-chart');
-    Route::get('directorio-telefonico', 'MunicipalityController@phoneBook')->name('pages.municipality.phone-book');
-});
-
-Route::prefix('modernizacion')->group(function(){
-    Route::get('tributos-municipales', 'ModernizationController@municipalTaxes')->name('pages.modernization.municipal-taxes');
-    Route::get('licencia-de-edificaciones', 'ModernizationController@buildingLicense')->name('pages.modernization.building-license');
-    Route::get('licencia-de-funcionamiento', 'ModernizationController@operatingLicense')->name('pages.modernization.operating-license');
-    Route::get('libro-de-reclamaciones', 'ModernizationController@complaintsBook')->name('pages.modernization.complaints-book');
-});
-
-Route::prefix('servicios-municipales')->group(function(){
-    Route::get('{slug}', 'ServiceController@get_view')->name('pages.services.citizen-security');
-
-    Route::get('seguridad-ciudadana', 'ServiceController@citizenSecurity')->name('pages.services.citizen-security');
-    Route::get('codisec', 'ServiceController@codisec')->name('pages.services.codisec');
-    Route::get('vaso-de-leche', 'ServiceController@glassOfMilk')->name('pages.services.glass-of-milk');
-    Route::get('demuna', 'ServiceController@demuna')->name('pages.services.demuna');
-    Route::get('deportes', 'ServiceController@sports')->name('pages.services.sports');
-    Route::get('registro-civil', 'ServiceController@civilRegistration')->name('pages.services.civil-registration');
-    Route::get('defensa-civil', 'ServiceController@civilDefense')->name('pages.services.civil-defense');
-    Route::get('itse', 'ServiceController@itse')->name('pages.services.itse');
-    Route::get('sisfoh', 'ServiceController@sisfoh')->name('pages.services.sisfoh');
-});
-
-//Route::get('/docgestion/{acronym}', 'InstitutionalDocumentController@get_view');
-Route::get('/favoritos/{slug}', 'InstitutionalDocumentController@get_view');
-Route::get('/enlaces/{slug}', 'InstitutionalDocumentController@get_view_links');
-
-Route::get('rendicion-de-cuentas', 'AccountabilityController@get_index');
+// Route::get('/municipalidad/funcionarios', 'MunicipalityController@officials_view');
+// Route::get('/municipalidad/directorio', 'MunicipalityController@directory_view');
+// Route::get('/municipalidad/planeamiento-y-organizacion', 'MunicipalityController@planning_and_organization_view');
+// Route::get('/municipalidad/directivas', 'MunicipalityController@directives_view');
+// Route::get('/municipalidad/galeria-de-fotos', 'MunicipalityController@photos_gallery_view');
 
 
-Route::prefix('normatividad')->group(function(){
-    Route::get('resoluciones-de-alcaldia', 'NormativityController@mayoralResolutions')->name('pages.normativity.mayoral-resolutions');
-    Route::get('resolutions-datatable', 'NormativityController@resolutions_datatable');
-    Route::get('last-documents-datatable', 'NormativityController@last_documents_datatable');
-    Route::get('/', 'NormativityController@allResolutions');
+// Route::prefix('municipalidad')->group(function(){
+//     Route::get('mision-y-vision', 'MunicipalityController@missionVision')->name('pages.municipality.mission-vision');
+//     Route::get('alcalde', 'MunicipalityController@mayor')->name('pages.municipality.mayor');
+//     Route::get('concejo-municipal', 'MunicipalityController@cityCouncil')->name('pages.municipality.city-council');
+//     Route::get('comisiones', 'MunicipalityController@commissions')->name('pages.municipality.commissions');
+//     // Route::get('funcionarios', 'MunicipalityController@officials')->name('pages.municipality.officials');
+//     Route::get('organigrama', 'MunicipalityController@organizationChart')->name('pages.municipality.organization-chart');
+//     Route::get('directorio-telefonico', 'MunicipalityController@phoneBook')->name('pages.municipality.phone-book');
+// });
+
+// Route::prefix('modernizacion')->group(function(){
+//     Route::get('tributos-municipales', 'ModernizationController@municipalTaxes')->name('pages.modernization.municipal-taxes');
+//     Route::get('licencia-de-edificaciones', 'ModernizationController@buildingLicense')->name('pages.modernization.building-license');
+//     Route::get('licencia-de-funcionamiento', 'ModernizationController@operatingLicense')->name('pages.modernization.operating-license');
+//     Route::get('libro-de-reclamaciones', 'ModernizationController@complaintsBook')->name('pages.modernization.complaints-book');
+// });
+
+// Route::prefix('servicios-municipales')->group(function(){
+//     Route::get('{slug}', 'ServiceController@get_view')->name('pages.services.citizen-security');
+
+//     Route::get('seguridad-ciudadana', 'ServiceController@citizenSecurity')->name('pages.services.citizen-security');
+//     Route::get('codisec', 'ServiceController@codisec')->name('pages.services.codisec');
+//     Route::get('vaso-de-leche', 'ServiceController@glassOfMilk')->name('pages.services.glass-of-milk');
+//     Route::get('demuna', 'ServiceController@demuna')->name('pages.services.demuna');
+//     Route::get('deportes', 'ServiceController@sports')->name('pages.services.sports');
+//     Route::get('registro-civil', 'ServiceController@civilRegistration')->name('pages.services.civil-registration');
+//     Route::get('defensa-civil', 'ServiceController@civilDefense')->name('pages.services.civil-defense');
+//     Route::get('itse', 'ServiceController@itse')->name('pages.services.itse');
+//     Route::get('sisfoh', 'ServiceController@sisfoh')->name('pages.services.sisfoh');
+// });
+
+// //Route::get('/docgestion/{acronym}', 'InstitutionalDocumentController@get_view');
+// Route::get('/favoritos/{slug}', 'InstitutionalDocumentController@get_view');
+// Route::get('/enlaces/{slug}', 'InstitutionalDocumentController@get_view_links');
+
+// Route::get('rendicion-de-cuentas', 'AccountabilityController@get_index');
 
 
-    Route::get('decretos-de-alcaldia', 'NormativityController@mayoralDecrees')->name('pages.normativity.mayoral-decrees');
-    Route::get('ordenanzas-municipales', 'NormativityController@municipalOrdinances')->name('pages.normativity.municipal-ordinances');
-    Route::get('resoluciones-de-gerencia-municipal', 'NormativityController@municipalManagementResolutions')->name('pages.normativity.municipal-management-resolutions');
-    Route::get('acuerdos-de-concejo-municipal', 'NormativityController@municipalCouncilAgreements')->name('pages.normativity.municipal-council-agreements');
-    Route::get('otros-documentos', 'NormativityController@otherDocuments')->name('pages.normativity.other-documents');
-});
-Route::get('portal-de-transparencia', 'PageController@transparencyPortal')->name('pages.transparency-portal');
-Route::get('mesa_partes', 'PageController@virtualMpv')->name('pages.mesa_partes');
-Route::prefix('noticias')->group(function(){
-    Route::get('/', 'NewsController@index')->name('pages.news');
-    Route::get('/{slug}', 'NewsController@detail')->name('pages.news.detail');
-});
-
-Route::get('agenda', 'ScheduleController@index');
-
-Route::get('/videos', 'VideoController@index');
+// Route::prefix('normatividad')->group(function(){
+//     Route::get('resoluciones-de-alcaldia', 'NormativityController@mayoralResolutions')->name('pages.normativity.mayoral-resolutions');
+//     Route::get('resolutions-datatable', 'NormativityController@resolutions_datatable');
+//     Route::get('last-documents-datatable', 'NormativityController@last_documents_datatable');
+//     Route::get('/', 'NormativityController@allResolutions');
 
 
-Route::prefix('obras')->group(function(){
-    Route::get('/', 'WorksController@index')->name('pages.works');
-    Route::get('/{slug}', 'WorksController@detail')->name('pages.works.detail');
-});
+//     Route::get('decretos-de-alcaldia', 'NormativityController@mayoralDecrees')->name('pages.normativity.mayoral-decrees');
+//     Route::get('ordenanzas-municipales', 'NormativityController@municipalOrdinances')->name('pages.normativity.municipal-ordinances');
+//     Route::get('resoluciones-de-gerencia-municipal', 'NormativityController@municipalManagementResolutions')->name('pages.normativity.municipal-management-resolutions');
+//     Route::get('acuerdos-de-concejo-municipal', 'NormativityController@municipalCouncilAgreements')->name('pages.normativity.municipal-council-agreements');
+//     Route::get('otros-documentos', 'NormativityController@otherDocuments')->name('pages.normativity.other-documents');
+// });
+// Route::get('portal-de-transparencia', 'PageController@transparencyPortal')->name('pages.transparency-portal');
+// Route::get('mesa_partes', 'PageController@virtualMpv')->name('pages.mesa_partes');
+// Route::prefix('noticias')->group(function(){
+//     Route::get('/', 'NewsController@index')->name('pages.news');
+//     Route::get('/{slug}', 'NewsController@detail')->name('pages.news.detail');
+// });
 
-Route::prefix('comunicados')->group(function(){
-    Route::get('/', 'CommuniqueController@index');
-    Route::get('/{id}', 'CommuniqueController@detail');
-});
+// Route::get('agenda', 'ScheduleController@index');
 
-Route::get('convocatoria', 'PageController@convocatoria_view');
-Route::get('convocatoria-datatable', 'ConvocatoriaController@datatable');
+// Route::get('/videos', 'VideoController@index');
 
-Route::resource('news','newsController');
 
-//Route::resource('noticia','NoticiaController');
+// Route::prefix('obras')->group(function(){
+//     Route::get('/', 'WorksController@index')->name('pages.works');
+//     Route::get('/{slug}', 'WorksController@detail')->name('pages.works.detail');
+// });
 
-Route::get('/hola', 'NoticiaController@index')->name('pages.noticias.index');
+// Route::prefix('comunicados')->group(function(){
+//     Route::get('/', 'CommuniqueController@index');
+//     Route::get('/{id}', 'CommuniqueController@detail');
+// });
 
-Route::get('/hola2',function(){
-    return view('pages.noticias.index',[
-        'mensaje'=>'hola perros',
-        'html'=>'<h3> perrrrrros</h3>'
+// Route::get('convocatoria', 'PageController@convocatoria_view');
+// Route::get('convocatoria-datatable', 'ConvocatoriaController@datatable');
 
-    ]);
-});
+// Route::resource('news','newsController');
+
+// //Route::resource('noticia','NoticiaController');
+
+// Route::get('/hola', 'NoticiaController@index')->name('pages.noticias.index');
+
+// Route::get('/hola2',function(){
+//     return view('pages.noticias.index',[
+//         'mensaje'=>'hola perros',
+//         'html'=>'<h3> perrrrrros</h3>'
+
+//     ]);
+// });
 
 Route::group(["namespace" => "Admin", "prefix" => "admin", "middleware" => ["auth.personalized"]], function () {
 
