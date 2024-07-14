@@ -85,65 +85,53 @@
           @if(in_array('ver-concejo-municipal', $permissions))
           <li class="nav-item">
             <a href="/admin/concejo-municipal" class="nav-link">
-              <i class="nav-icon fas fa-gavel"></i>
-              <p>Concejo municipal</p>
+              <i class="nav-icon fas fa-building"></i>
+              <p>Oficina</p>
             </a>
           </li>
           @endif
           
-          @if(in_array('ver-comisiones', $permissions))
-          <li class="nav-item">
+<!--           <li class="nav-item">
             <a href="/admin/comisiones" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>Comisiones</p>
             </a>
           </li>
-          @endif
 
-          @if(in_array('ver-agenda', $permissions))
           <li class="nav-item">
             <a href="/admin/agenda" class="nav-link">
               <i class="nav-icon fas fa-book-open"></i>
               <p>Agenda</p>
             </a>
           </li>
-          @endif
 
-          @if(in_array('ver-noticias', $permissions))
           <li class="nav-item">
             <a href="/admin/noticias" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>Noticias</p>
             </a>
-          </li>
-          @endif
+          </li> -->
 
-          @if(in_array('ver-obras', $permissions))
-          <li class="nav-item">
+  <!--         <li class="nav-item">
             <a href="/admin/obras" class="nav-link">
               <i class="nav-icon fas fa-building"></i>
               <p>Obras</p>
             </a>
           </li>
-          @endif
 
-          @if(in_array('ver-sliders', $permissions))
           <li class="nav-item">
             <a href="/admin/sliders" class="nav-link">
               <i class="nav-icon fas fa-images"></i>
               <p>Sliders</p>
             </a>
           </li>
-          @endif
-
-          @if(in_array('ver-popup', $permissions))
-          <li class="nav-item">
+ -->
+<!--           <li class="nav-item">
             <a href="/admin/popups" class="nav-link">
               <i class="nav-icon fas fa-window-restore"></i>
               <p>Popup</p>
             </a>
-          </li>
-          @endif
+          </li> -->
 
           @if(in_array('ver-servicios', $permissions))
           <li class="nav-item">
@@ -154,59 +142,47 @@
           </li>
           @endif
 
-          @if(in_array('ver-convocatorias', $permissions))
-          <li class="nav-item">
+<!--           <li class="nav-item">
             <a href="/admin/convocatorias" class="nav-link">
               <i class="nav-icon fas fa-briefcase"></i>
               <p>Convocatorias</p>
             </a>
-          </li>
-          @endif
+          </li> -->
           
-          @if(in_array('ver-normas', $permissions))
-          <li class="nav-item">
+<!--           <li class="nav-item">
             <a href="/admin/normas" class="nav-link">
               <i class="nav-icon fas fa-scroll"></i>
               <p>Normas</p>
             </a>
           </li>
-          @endif
 
-          @if(in_array('ver-tipo-de-documento', $permissions))
           <li class="nav-item">
             <a href="/admin/tipos-de-documento" class="nav-link">
               <i class="nav-icon fas fa-file"></i>
               <p>Tipos de documento</p>
             </a>
-          </li>
-          @endif
+          </li> -->
 
-          @if(in_array('ver-videos', $permissions))
           <li class="nav-item">
             <a href="/admin/videos" class="nav-link">
               <i class="nav-icon fas fa-video"></i>
               <p>Videos</p>
             </a>
           </li>
-          @endif
 
-          @if(in_array('ver-documentos-institucionales', $permissions))
-          <li class="nav-item">
+<!--           <li class="nav-item">
             <a href="/admin/documentos-institucionales" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>Favoritos</p>
             </a>
-          </li>
-          @endif
+          </li> -->
 
-          @if(in_array('ver-otros-documentos-importantes', $permissions))
-          <li class="nav-item">
+<!--           <li class="nav-item">
             <a href="/admin/otros-documentos-importantes" class="nav-link">
               <i class="nav-icon fas fa-file"></i>
               <p>Enlaces</p>
             </a>
-          </li>
-          @endif
+          </li> -->
 
         </ul>
       </nav>
