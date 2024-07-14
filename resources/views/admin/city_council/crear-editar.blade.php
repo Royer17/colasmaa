@@ -6,7 +6,7 @@
         <div class="modal-header">
            <div class="row">
             <div class="col">
-              <h4 class="solsoModalTitle" id="modal-title-city-council">Crear Convocatoria</h4>
+              <h4 class="solsoModalTitle" id="modal-title-city-council">Crear OFICINA</h4>
             </div>
            </div>
         </div>
@@ -20,12 +20,6 @@
                                 {{ Form::open(array('id' => 'city-council-form', 'role' => 'form', 'files' => true, 'enctype' => 'multipart/form-data', 'autocomplete' => 'off')) }}
                                     <input type="hidden" name="id">
 
-                                    <div class="form-group">
-                                        {{ Form::label('content', 'Cargo') }}
-                                        <input type="text" name="position" class="form-control" placeholder="Cargo">
-                                        <div id="city-council-subject-error" class="text-danger mensaje-error"></div>
-
-                                    </div>
 
                                     <div class="form-group">
                                         {{ Form::label('title', 'Nombre') }}
@@ -34,22 +28,30 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label>Foto</label>
-                                        <input type="file" name="photo" value="" style="margin-bottom: 10px;" class="form-control">
-                                        <img src="" alt="" style="height: 200px;">
-                                    </div>
-                                  
-                                    <div class="form-group">
-                                        <label>Correo Electrónico</label>
-                                        <input type="text" name="email" style="margin-bottom: 10px;" placeholder="Correo Electrónico" class="form-control">
+                                        <label>Sigla</label>
+                                        <input type="text" name="email" style="margin-bottom: 10px;" placeholder="Sigla" class="form-control">
                                         <div id="city-council-email-error" class=" text-danger mensaje-error"></div>
                                     </div>
 
+
                                     <div class="form-group">
-                                        {{ Form::label('title', 'Visible') }}
+                                        {{ Form::label('content', 'Posición') }}
+                                        <input type="text" name="position" class="form-control" placeholder="Cargo">
+                                        <div id="city-council-subject-error" class="text-danger mensaje-error"></div>
+                                    </div>
+                                
+
+<!--                                     <div class="form-group">
+                                        <label>Foto</label>
+                                        <input type="file" name="photo" value="" style="margin-bottom: 10px;" class="form-control">
+                                        <img src="" alt="" style="height: 200px;">
+                                    </div> -->
+
+                                    <div class="form-group">
+                                        {{ Form::label('title', 'Estado') }}
                                         <select class="form-control" name="published">
-                                            <option value="1">Si</option>
-                                            <option value="0">No</option>
+                                            <option value="1">Activo</option>
+                                            <option value="0">Inactivo</option>
                                         </select>
                                     </div>
 

@@ -26,27 +26,27 @@ $datatable = $('#city-council-datatable').DataTable({
     ajax: `/admin/city-council-datatable?role_id=${roleId}`,
     columns: [
         {data:'id', name: 'id', 'searchable': false},
-        {data:'position', name: 'position', 'searchable': true},
-        {data:'name', name: 'name', 'searchable': true},
         {data:'email', name: 'email', 'searchable': false},
-        {data:'Image', 'searchable': false},
+        {data:'name', name: 'name', 'searchable': true},
+        {data:'position', name: 'position', 'searchable': true},
+        // {data:'Image', 'searchable': false},
         {data:'published', 'searchable': false},
         {data:'Actions', 'searchable': false}
     ],
     "aoColumnDefs": [
         {
             "bVisible": false,
-             "aTargets": [0, 4]
+             "aTargets": [0]
         },
         {
-              "aTargets": [ 5 ],
+              "aTargets": [ 4 ],
               "mData": "published",
               "mRender": function ( data, type, full ) {
 
                 if (full['published'] == 1) {
-                    return "Sí";
+                    return "Activo";
                 }
-                return "No";
+                return "No Activo";
               }
         }
     ]
@@ -56,7 +56,7 @@ city_council.btnAdd.addEventListener('click', () => {
     cleanError();
     cleanModal();
     
-    city_council.modalTitle.text("Crear Concejo Municipal");
+    city_council.modalTitle.text("Crear Oficina");
     city_council.btnUpdate.hide();
     city_council.btnSave.show();
     $('#modalCityCouncil').modal('show');
@@ -67,7 +67,7 @@ function Editar(btn){
 
     cleanError();
     cleanModal();
-    city_council.modalTitle.text("Editar Concejo Municipal");
+    city_council.modalTitle.text("Editar Oficina");
     city_council.form.append('<input type="hidden" name="_method" value="PUT" />');
 
     city_council.btnSave.hide();
@@ -84,10 +84,10 @@ function Editar(btn){
         document.querySelector(`${city_council.formId} input[name="email"]`).value = email;
         document.querySelector(`${city_council.formId} select[name="published"]`).value = published;
 
-        if(photo){
-            document.querySelector(`${city_council.formId} img`).setAttribute('src', `${photo}`);
-            $(`${city_council.formId} img`).show();
-        }
+        // if(photo){
+        //     document.querySelector(`${city_council.formId} img`).setAttribute('src', `${photo}`);
+        //     $(`${city_council.formId} img`).show();
+        // }
 
         $('#modalCityCouncil').modal('show');
     });
@@ -100,7 +100,7 @@ function Eliminar(btn){
     const id = btn.value;
 
     Swal.fire({
-    title: `Eliminar Concejo Municipal`,
+    title: `Eliminar Oficina`,
     showCancelButton: true,
     confirmButtonText: `Confirmar`,
     cancelButtonText: `Cancelar`,

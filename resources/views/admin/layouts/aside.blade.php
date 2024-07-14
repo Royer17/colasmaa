@@ -30,7 +30,7 @@
           <li class="nav-item">
             <a href="/admin/dashboard" class="nav-link">
               <i class="nav-icon fas fa-home"></i>
-              <p>Configuración</p>
+              <p>Ajustes</p>
             </a>
           </li>
           @endif
@@ -53,6 +53,15 @@
           </li>
           @endif
           
+          <hr>
+
+          <li class="nav-item">
+            <a href="/admin/atencion" class="nav-link">
+              <i class="nav-icon fa fa-laptop"></i>
+              <p>Atención</p>
+            </a>
+          </li>
+
           @if(in_array('ver-municipalidad', $permissions))
           <li class="nav-item">
             <a href="/admin/municipalidad" class="nav-link">
