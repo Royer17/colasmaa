@@ -21,7 +21,7 @@ function datatableVideos()
         ajax: `/admin/videos-datatable?role_id=${roleId}`,
         columns: [
             {data:'id', name: 'id', 'searchable': false},
-            {data:'video', name: 'video', 'searchable': false},
+            {data:'foto', name: 'foto', 'searchable': false},
             {data:'titulo', name: 'titulo', 'searchable': true},
             {data:'created_at', name: 'created_at', 'searchable': false},
             {data:'Image', 'searchable': false},
@@ -33,6 +33,13 @@ function datatableVideos()
                 "bVisible": false,
                  "aTargets": [0, 4]
             },
+            {
+                  "aTargets": [ 1 ],
+                  "mData": "foto",
+                  "mRender": function ( data, type, full ) {
+                      return `<a href="${full['foto']}" target="_blank">Enlace</a>`;
+                  }
+            },            
             {
                   "aTargets": [ 3 ],
                   "mData": "created_at",
@@ -46,9 +53,9 @@ function datatableVideos()
                   "mRender": function ( data, type, full ) {
                     
                     if (full['published'] == 1) {
-                        return "Sí";
+                        return "Activo";
                     }
-                    return "No";
+                    return "Inactivo";
                   }
             }
 

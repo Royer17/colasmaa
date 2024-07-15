@@ -16,7 +16,7 @@
       <div class="container-fluid">
         <div class="row mb-12">
           <div class="col-sm-12">
-            <h1>Videos - Youtube</h1>
+            <h1>Videos</h1>
           </div>
           <div class="col-sm-12">
             <ol class="breadcrumb float-sm-right">
@@ -36,8 +36,8 @@
     <div class="card" id="post-datatable">
       <div class="col-lg-12">
         <div class="box">
-          <div class="box-header">
-            <div class="col-lg-12">
+          <div class="box-header mt-2 mb-2">
+            <div class="col-lg-12 pl-0">
               <button type="button" class="btn btn-success" data-toggle="modal" data-target="" id="video-add">
                 <i class="fa fa-video"></i> Nuevo Video
               </button>
@@ -53,10 +53,10 @@
                   <tr>
                     <th style="width: 150px;">ID</th>
                     <th style="width: 150px;">Video</th>
-                    <th style="width: 100px;">Título</th>
+                    <th style="width: 100px;">Nombre</th>
                     <th style="width: 30px;">Fecha</th>
                     <th style="width: 100px;">Imagen</th>
-                    <th style="width: 100px;">Visible</th>
+                    <th style="width: 100px;">Estado</th>
                     <th style="width: 60px;">Acciones</th>
                   </tr>
                 </thead>

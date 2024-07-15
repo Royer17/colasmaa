@@ -41,7 +41,7 @@ class YoutubeController extends Controller
         $role_id = $request->role_id;
 
         $result = DB::table('youtube')
-            ->select('id', 'video','titulo', 'created_at', 'published')
+            ->select('id', 'video','titulo', 'created_at', 'published', 'foto')
             ->where('deleted_at', NULL);
 
         return DataTables::of($result)
@@ -80,6 +80,7 @@ class YoutubeController extends Controller
     {
 
         $data = $request->except([]);
+        $data['video'] = "";
 
         $video = new Youtube();
         $video->fill($data);

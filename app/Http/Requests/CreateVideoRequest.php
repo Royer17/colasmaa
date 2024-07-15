@@ -25,7 +25,7 @@ class CreateVideoRequest extends FormRequest
     {
         return [
             'titulo' => 'required',
-            'video' => 'required'
+            //'video' => 'required'
         ];
     }
 }

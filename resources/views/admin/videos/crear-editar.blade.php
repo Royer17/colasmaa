@@ -29,27 +29,25 @@
                                     </div>
 
                                     <div class="form-group">
-                                        {{ Form::label('title', 'Título') }}
-                                        {{ Form::text('titulo', null, array('placeholder' => 'Título', 'class' => 'form-control')) }}
+                                        {{ Form::label('title', 'Nombre') }}
+                                        {{ Form::text('titulo', null, array('placeholder' => 'Nombre', 'class' => 'form-control')) }}
                                         <div id="video-titulo-error" class="mensaje-error"></div>
                                     </div>
                                     
-                                    <div class="form-group">
-                                        {{ Form::label('title', 'Video') }}
-                                        {{ Form::text('video', null, array('placeholder' => 'https://www.youtube.com/watch?v=YX5i0gqOrzE', 'class' => 'form-control')) }}
+<!--                                     <div class="form-group">
                                         <div id="video-video-error" class="mensaje-error"></div>
-                                    </div>
+                                    </div> -->
 
                                     <div class="form-group">
-                                        {{ Form::label('title', 'Visible') }}
+                                        {{ Form::label('title', 'Estado') }}
                                         <select class="form-control" name="published">
-                                            <option value="1">Si</option>
-                                            <option value="0">No</option>
+                                            <option value="1">Activo</option>
+                                            <option value="0">Inactivo</option>
                                         </select>
                                     </div>
 
                                     <div class="form-group">
-                                        <label>Archivo</label>
+                                        <label>Video</label>
                                         <input type="file" name="foto" value="" style="margin-bottom: 10px;" class="form-control">
                                         <img src="" width="200px">
                                     </div>
