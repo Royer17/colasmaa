@@ -10,9 +10,6 @@ use App\Ticket;
 class MonitorController extends Controller
 {
     public function index(Request $request){
-
-        
-        
         return view('colas.monitorindex');
     }
 
