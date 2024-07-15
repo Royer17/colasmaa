@@ -21,7 +21,7 @@ class VentanillaController extends Controller
         $ticket = Ticket::whereDate('created_at',date('Y-m-d'))->where('estado',0)->get();
         $tticket = $ticket->count();
 
-        return view('colas.ventanillaindex',compact('tticket','ventanilla'));
+        return view('colas.ventanillaindex', compact('tticket','ventanilla'));
 
         //$equiponombre = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         

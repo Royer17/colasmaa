@@ -59,7 +59,7 @@
     background-color: #163667;
     font-size: 8rem;
     font-weight: bold;
-    background-image: url('img/colas/logoUgel.png');
+    background-image: url('imagenes/colas/logoUgel.png');
     background-size:50%;
     background-repeat: no-repeat;
     background-position: center;
@@ -110,19 +110,19 @@
           <div id="carouselExampleSlidesOnly" class="carousel slide carousel-fade" data-ride="carousel">
             <div class="carousel-inner">
               <div class="carousel-item active">
-                  <img src="{{url('img/colas/marcha.png')}}" class="d-block w-100" alt="...">
+                  <img src="{{url('imagenes/colas/marcha.png')}}" class="d-block w-100" alt="...">
               </div>
               <div class="carousel-item ">
-                <img src="{{url('img/colas/imagen2.png')}}" class="d-block w-100" alt="...">
+                <img src="{{url('imagenes/colas/imagen2.png')}}" class="d-block w-100" alt="...">
               </div>
               <div class="carousel-item ">
-                <img src="{{url('img/colas/imagen3.png')}}" class="d-block w-100" alt="...">
+                <img src="{{url('imagenes/colas/imagen3.png')}}" class="d-block w-100" alt="...">
               </div>
             </div>
           </div>
         </div>
       </div>
-      <audio hidden style="height: 0" id="audio" src="{{url('img/colas/atenciontiket.mp3')}}" controls autoplay></audio>
+      <audio hidden style="height: 0" id="audio" src="{{url('imagenes/colas/atenciontiket.mp3')}}" controls autoplay></audio>
   </body>
 @endsection
 

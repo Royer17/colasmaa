@@ -50,7 +50,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class='col-span-6' style="display:flex; flex-direction:column; justify-content:center; align-items:center;">
-                        <img class="img-dni" src="{{url('img/colas/dniElectronico.png')}}">
+                        <img class="img-dni" src="{{url('imagenes/colas/dniElectronico.png')}}">
                         <div class="w-full ">
                             <form method="post" style="display:flex; flex-direction:column; justify-content:center; align-items:center; gap:30px ">
                                 {{ csrf_field() }}
