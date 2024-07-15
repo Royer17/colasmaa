@@ -104,9 +104,17 @@
                 <p class="m-0" id="numeroTicket2"></p>
             </div>
         </div>
-
         
         <div class="marcha">
+          @if($videos)
+            @foreach($videos as $key => $video)
+              <input type="hidden" name="" id="video-to-play{{ $key + 1 }}" class="videos-to-play" value="{{ $video->foto }}">
+            @endforeach
+          <video id="myVideo" autoplay controls>
+            <source src="" id="mp4Source" type="video/mp4">
+            Your browser does not support the html video tag.  
+          </video>
+          @else
           <div id="carouselExampleSlidesOnly" class="carousel slide carousel-fade" data-ride="carousel">
             <div class="carousel-inner">
               <div class="carousel-item active">
@@ -120,6 +128,7 @@
               </div>
             </div>
           </div>
+          @endif
         </div>
       </div>
       <audio hidden style="height: 0" id="audio" src="{{url('imagenes/colas/atenciontiket.mp3')}}" controls autoplay></audio>
@@ -332,9 +341,35 @@ setInterval(() => {
             }
         });
     }
-
     
+    //video functions
+    var count=0;
+    var player=document.getElementById('myVideo');
+    var mp4Vid = document.getElementById('mp4Source');
+    player.addEventListener('ended',myHandler,false);
 
+    let videos = document.querySelectorAll('.videos-to-play');
+    let quantityOfVideos = videos.length;
+
+    function myHandler(e)
+    {
+
+      if(!e) 
+      {
+        e = window.event; 
+      }
+      count++;
+
+      if (count > quantityOfVideos) {
+        count = 1;
+      }
+      console.log(document.querySelector(`#video-to-play${count}`).value);
+      $(mp4Vid).attr('src', document.querySelector(`#video-to-play${count}`).value);
+      player.load();
+      player.play();
+    }
+
+    myHandler();
     
 
 

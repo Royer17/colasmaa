@@ -6,11 +6,18 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Ticket;
+use App\Youtube;
+
 
 class MonitorController extends Controller
 {
     public function index(Request $request){
-        return view('colas.monitorindex');
+
+        $videos = Youtube::where('published', 1)
+            ->where('foto', '!=', '')
+            ->get(['id', 'foto']);
+
+        return view('colas.monitorindex', compact('videos'));
     }
 
     public function carga(Request $request){
