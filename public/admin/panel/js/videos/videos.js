@@ -89,7 +89,7 @@ function Editar(btn){
         const form = `#form-videos`;
         document.querySelector(`${form} input[name="titulo"]`).value = p.titulo; 
         document.querySelector(`${form} input[name="id"]`).value = p.id; 
-        document.querySelector(`${form} input[name="video"]`).value = p.video; 
+        //document.querySelector(`${form} input[name="video"]`).value = p.video; 
         document.querySelector(`${form} select[name="published"]`).value = p.published;
 
         $('#form-videos input[name="foto"]').next().hide();
