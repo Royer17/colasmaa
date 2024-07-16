@@ -38,6 +38,10 @@
       color:white;
   }
 
+  .yellowLetter {
+    color: #163667;
+  }
+
 
   .hidden {
     display:none;
@@ -104,7 +108,7 @@
                 <th style="width: 200px;">Módulo</th>
               </tr>
             </thead>
-            <tbody style="font-size: 4rem;border: 1px solid black;">
+            <tbody style="font-size: 3.5rem;border: 1px solid black;">
               <tr>
                 <td>TD001</td>
                 <td>1</td>
@@ -128,6 +132,10 @@
                 <td>3</td>
               </tr>
 
+              <tr>
+                <td>AD002</td>
+                <td>3</td>
+              </tr>
             </tbody>
           </table>
 
@@ -175,9 +183,19 @@
 
 <script>
 
-$('.carousel').carousel({
-  interval: 3000
-})
+function cleanAllChildren(element){
+  while (element.firstChild) {
+    element.removeChild(element.firstChild); 
+  }
+}
+
+const tbody = document.querySelector('#monitor tbody');
+
+
+// $('.carousel').carousel({
+//   interval: 3000
+// })
+
 var resultado = 0
 
 function reproducirAudio() {
@@ -194,23 +212,52 @@ setInterval(() => {
     
     function cargar(){
         $.ajax({
-            url:'monitorcarga',
+            url:'monitorcargav2',
             type:'get',
             success: function (data) {
-                resultado =data[0].find(({estado})=>estado==1) 
+                resultado = data.active_tickets.find(({estado})=>estado==1) 
 
                 if(!resultado){
                     resultado = 0
                 }else {
                     resultado = resultado.estado
                 }
-                let numeroVentanillas = data[0].length;       
-                let listaTickets = data[0];   
+
+                let numeroVentanillas = data.active_tickets.length;       
+                let listaTickets = data.active_tickets;   
                 console.log(listaTickets)
 
                 const monitor = document.getElementById('monitor')
                 const numeroTicket1 = document.getElementById('numeroTicket1')
                 const numeroTicket2 = document.getElementById('numeroTicket2')
+
+                cleanAllChildren(tbody);
+
+                data.active_tickets.forEach((element) => {
+                  const tr = document.createElement('tr');
+                  tr.classList.add('colorAmarillo');
+                  tr.classList.add('yellowLetter');
+                  
+                  tr.innerHTML = `<td>${element.code}</td>
+                                  <td>${element.ventanilla}</td>`;
+
+                  console.log(tbody);
+                  console.log(tr);
+
+                  tbody.appendChild(tr);
+
+                })
+                
+                data.tickets_in_queue.forEach((element) => {
+                  const tr = document.createElement('tr');
+                  
+                  tr.innerHTML = `  <td>${element.code}</td>
+                                    <td>${element.ventanilla}</td>`;
+
+                  tbody.appendChild(tr);
+                });
+
+                return;
                 if(numeroVentanillas == 1){
                     monitor.classList.add('colum1')
                     listaTickets.map(({ticket,estado,ventanilla})=>{

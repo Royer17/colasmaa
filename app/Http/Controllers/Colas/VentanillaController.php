@@ -13,12 +13,20 @@ class VentanillaController extends Controller
             
         $user = Auth::user();
 
+        if (!$user->office_id) {
+            return "Sin Acceso. El usuario no tiene asignado una oficina.";
+        }
+
         if (!$user->ventanilla) {
             return "Sin Acceso. El usuario no tiene asignado una ventanilla.";
         }
 
+        $office_id = $user->office_id;
         $ventanilla= $user->ventanilla;
-        $ticket = Ticket::whereDate('created_at',date('Y-m-d'))->where('estado',0)->get();
+        $ticket = Ticket::whereDate('created_at',date('Y-m-d'))
+            ->where('estado',0)
+            ->whereOfficeId($office_id)
+            ->get();
         $tticket = $ticket->count();
 
         return view('colas.ventanillaindex', compact('tticket','ventanilla'));
@@ -37,23 +45,36 @@ class VentanillaController extends Controller
     }
 
     public function enespera(Request $request){
-        $tticket = Ticket::whereDate('created_at',date('Y-m-d'))->where('estado',0)->count();
+        
+        $user = Auth::user();
+        $office_id = $user->office_id;
+        $ventanilla= $user->ventanilla;
+
+        $tticket = Ticket::whereDate('created_at',date('Y-m-d'))
+            ->where('estado',0)
+            ->whereOfficeId($office_id)
+            ->count();
+
         //Logeado como ventanilla 2 
         $ticketAbiertos= Ticket::whereDate('updated_at',date('Y-m-d'))
-        ->whereIn('estado',[1,2])
-        ->where('ventanilla',$request->ventanilla)
-        ->first();
+            ->whereIn('estado',[1,2])
+            ->where('ventanilla',$request->ventanilla)
+            ->whereOfficeId($office_id)
+            ->first();
 
         if($ticketAbiertos){
             $ticket=$ticketAbiertos;
             $tticket= 1;
         } else {
             $ticket = Ticket::whereDate('created_at',date('Y-m-d'))
-            ->where('estado',0)
-            ->orderBy('ticket','asc')
-            ->first(); // todo el registro
+                ->where('estado',0)
+                ->orderBy('ticket','asc')
+                ->whereOfficeId($office_id)
+                ->first(); // todo el registro
+
             if ($ticket){
-                $ticket->ventanilla=$request->ventanilla;
+                //$ticket->ventanilla=$request->ventanilla;
+                $ticket->ventanilla=$ventanilla;
                 $ticket->estado = 1;
                 $ticket->save();
             }
