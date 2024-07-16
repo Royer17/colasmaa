@@ -54,6 +54,7 @@
                         <div class="w-full ">
                             <form method="post" style="display:flex; flex-direction:column; justify-content:center; align-items:center; gap:30px ">
                                 {{ csrf_field() }}
+                                <input type="hidden" name="office_id">
                                 <input id="resultado" name="dni" style="font-size:40px; width:350px; font-weight:bolder; color:#194073; border:none; text-align:center"
                                 type="number" minlength="8" maxlength="8" />
                                 <div style="display:none;" id="error" class="text-danger h2">
@@ -61,7 +62,13 @@
                                     <span id="error-text">
                                     </span>
                                 </div>
-                                <button style="margin-top:100px" type="submit" class='btn-enviar btn-xl'>OK</button>
+                                <!-- <button style="margin-top:100px" type="submit" class='btn-enviar btn-xl'>OK</button> -->
+                                <div>
+                                    @foreach($offices as $office)
+                                        <button data-index="{{ $office->id }}" type="button" class='btn-xl btn-enviarv2'>{{ $office->name }}</button>
+                                    @endforeach
+                                </div>
+                                
                             </form>
                         </div>
                     </div>
@@ -83,21 +90,46 @@
     var dir = "/"
     var dni = ''
 
-    $(".btn-enviar").on("click",function(){
-        let form = document.querySelector("form");    
-        form.addEventListener("submit", (event) => {
-            // cancela el comportamiento por defecto
-            event.preventDefault();
-            // resto del codigo
-            if($("#resultado").val().length == 8){
-                form.submit()
-            }else {
-                $("#error").show()
-                $("#error-text").html("ingrese un dni valido")
+    // $(".btn-enviar").on("click",function(){
+    //     let form = document.querySelector("form");    
+    //     form.addEventListener("submit", (event) => {
+    //         // cancela el comportamiento por defecto
+    //         event.preventDefault();
+    //         // resto del codigo
+    //         if($("#resultado").val().length == 8){
+    //             form.submit()
+    //         }else {
+    //             $("#error").show()
+    //             $("#error-text").html("ingrese un dni valido")
                 
-            }        
-        })
+    //         }        
+    //     })
+    // })
+
+    $(".btn-enviarv2").on("click",function(element){
+        element.preventDefault();
+        let form = document.querySelector("form");
+
+        let officeId = element.target.dataset.index;
+        form.querySelector('input[name="office_id"]').value = officeId;
+
+        if($("#resultado").val().length != 8){
+            $("#error").show();
+            $("#error-text").html("ingrese un dni valido")
+            return;
+        }
+
+        if (!form.querySelector('input[name="office_id"]').value) {
+            $("#error").show();
+            $("#error-text").html("seleccione una oficina");
+            return;
+        }
+        
+        form.submit();
+
+        
     })
+    
     
     function handleNumeroClick(numero) {
         if (dni.length < 8) {

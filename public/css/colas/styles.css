@@ -34,6 +34,17 @@
     border:none;
 }
 
+.btn-enviarv2 {
+    background-color:#D7F205;
+    color:#194073;
+    font-weight: bolder;
+    height: 100px;
+    padding: 10px 16px;
+    border-radius: 30px;
+    font-size: 30px;
+    border:none;
+}
+
 .btn-circle {
     width: 30px;
     height: 30px;
