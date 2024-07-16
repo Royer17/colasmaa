@@ -20,6 +20,16 @@ class MonitorController extends Controller
         return view('colas.monitorindex', compact('videos'));
     }
 
+    public function indexv2(Request $request){
+
+        $videos = Youtube::where('published', 1)
+            ->where('foto', '!=', '')
+            ->get(['id', 'foto']);
+
+        return view('colas.monitorindexv2', compact('videos'));
+    }
+
+
     public function carga(Request $request){
         $ticket = Ticket::select('ticket','estado','ventanilla')->whereDate('created_at',date('Y-m-d'))
         ->whereIn('estado',[1,2])

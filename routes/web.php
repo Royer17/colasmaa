@@ -29,6 +29,8 @@ Route::group(["namespace" => "Colas", "middleware" => ["auth.personalized"]], fu
 
     // monitor
     Route::get('monitor', 'MonitorController@index');
+    Route::get('monitorv2', 'MonitorController@indexv2');
+
     Route::get('monitorcarga', 'MonitorController@carga');
     Route::get('verificar', 'MonitorController@verificar');
     
