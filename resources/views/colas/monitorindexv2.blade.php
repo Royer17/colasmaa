@@ -38,8 +38,12 @@
       color:white;
   }
 
-  .yellowLetter {
+  .blueLetter {
     color: #163667;
+  }
+
+  .whiteLetter {
+    color: white;
   }
 
 
@@ -235,16 +239,32 @@ setInterval(() => {
 
                 data.active_tickets.forEach((element) => {
                   const tr = document.createElement('tr');
-                  tr.classList.add('colorAmarillo');
-                  tr.classList.add('yellowLetter');
                   
                   tr.innerHTML = `<td>${element.code}</td>
                                   <td>${element.ventanilla}</td>`;
 
-                  console.log(tbody);
-                  console.log(tr);
-
                   tbody.appendChild(tr);
+
+                  if (element.estado == 1) {
+                    tr.classList.add('blueLetter');
+                    let isColorAmarillo = true;
+                    const interval = setInterval(() => {
+                      if (isColorAmarillo) {
+                        tr.classList.remove('colorGris');
+                        tr.classList.add('colorAmarillo');
+                      } else {
+                        tr.classList.add('colorGris');
+                        tr.classList.remove('colorAmarillo');
+                      }
+                      isColorAmarillo = !isColorAmarillo;
+                    }, 500);
+                  }
+
+                  if (element.estado == 2) {
+                    tr.classList.add('whiteLetter');
+
+                    tr.classList.add('colorVerde');
+                  }
 
                 })
                 
