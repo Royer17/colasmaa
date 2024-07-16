@@ -36,8 +36,8 @@
     <div class="card">
       <div class="col-lg-12">
         <div class="box">
-          <div class="box-header">
-            <div class="col-lg-12">
+          <div class="box-header mt-2 mb-2">
+            <div class="col-lg-12 pl-0">
               <button type="button" class="btn btn-success" data-toggle="modal" data-target="" id="user__add">
                 <i class="fa fa-book-open"></i> Nuevo Usuario
               </button>

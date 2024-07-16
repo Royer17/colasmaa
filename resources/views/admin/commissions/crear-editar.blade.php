@@ -6,7 +6,7 @@
         <div class="modal-header">
            <div class="row">
             <div class="col">
-              <h4 class="solsoModalTitle" id="modal-title-schedule">Crear Comisión</h4>
+              <h4 class="solsoModalTitle" id="modal-title-schedule">Crear Ventanilla</h4>
             </div>
            </div>
         </div>
@@ -28,22 +28,10 @@
                                     </div>
 
                                     <div class="form-group">
-                                        {{ Form::label('title', 'Presidente') }}
-                                        <input type="text" name="president" class="form-control" placeholder="Presidente">
-                                        <div id="commission-president-error" class="text-danger mensaje-error"></div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        {{ Form::label('content', 'Miembros') }}
-                                        <textarea name="members" placeholder="Miembros" class="form-control" rows="5"></textarea>
-                                        <div id="commission-subject-error" class="text-danger mensaje-error"></div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        {{ Form::label('title', 'Visible') }}
+                                        {{ Form::label('title', 'Estado') }}
                                         <select class="form-control" name="published">
-                                            <option value="1">Si</option>
-                                            <option value="0">No</option>
+                                            <option value="1">Activo</option>
+                                            <option value="0">Inactivo</option>
                                         </select>
                                     </div>
 

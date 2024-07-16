@@ -24,8 +24,8 @@ class CreateCityCouncilRequest extends FormRequest
     public function rules()
     {
         return [
-            'position' => 'required',
             'name' => 'required',
+            'commission_id' => 'required',
         ]; 
     }
 }

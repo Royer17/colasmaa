@@ -16,12 +16,12 @@
       <div class="container-fluid">
         <div class="row mb-12">
           <div class="col-sm-12">
-            <h1>Comisión</h1>
+            <h1>Ventanillas</h1>
           </div>
           <div class="col-sm-12">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
-              <li class="breadcrumb-item active">Comisión</li>
+              <li class="breadcrumb-item active">Ventanillas</li>
             </ol>
           </div>
         </div>
@@ -36,10 +36,10 @@
     <div class="card">
       <div class="col-lg-12">
         <div class="box">
-          <div class="box-header">
-            <div class="col-lg-12">
+          <div class="box-header mt-2 mb-2">
+            <div class="col-lg-12 pl-0">
               <button type="button" class="btn btn-success" data-toggle="modal" data-target="" id="commission__add">
-                <i class="fa fa-users"></i> Nueva Comisión
+                <i class="fa fa-window-restore"></i> Nueva Ventanilla
               </button>
             </div>
           </div>
@@ -52,10 +52,10 @@
                 <thead>
                   <tr>
                     <th style="width: 150px;">ID</th>
-                    <th style="width: 350px;">Título</th>
+                    <th style="width: 350px;">Nombre</th>
                     <th style="width: 100px;">Presidente</th>
                     <th style="width: 100px;">Imagen</th>
-                    <th style="width: 100px;">Visible</th>
+                    <th style="width: 100px;">Estado</th>
                     <th style="width: 60px;">Acciones</th>
                   </tr>
                 </thead>

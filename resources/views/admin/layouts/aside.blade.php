@@ -90,13 +90,16 @@
             </a>
           </li>
           @endif
-          
-<!--           <li class="nav-item">
+
+          <li class="nav-item">
             <a href="/admin/comisiones" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
-              <p>Comisiones</p>
+              <i class="nav-icon fa fa-window-restore"></i>
+              <p>Ventanillas</p>
             </a>
           </li>
+
+          
+<!--           
 
           <li class="nav-item">
             <a href="/admin/agenda" class="nav-link">

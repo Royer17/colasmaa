@@ -76,6 +76,7 @@ return [
 		'unidad' => 'campo unidad',
 		'subject' => 'campo asunto',
 		'type' => 'campo tipo',
+		'commission_id' => 'campo ventanilla'
 
 	],
 ];

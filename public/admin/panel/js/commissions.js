@@ -35,7 +35,7 @@ $datatable = $('#commissions-datatable').DataTable({
     "aoColumnDefs": [
         {
             "bVisible": false,
-             "aTargets": [0, 3]
+             "aTargets": [0, 2, 3]
         },
         {
               "aTargets": [ 4 ],
@@ -43,9 +43,9 @@ $datatable = $('#commissions-datatable').DataTable({
               "mRender": function ( data, type, full ) {
 
                 if (full['published'] == 1) {
-                    return "Sí";
+                    return "Activo";
                 }
-                return "No";
+                return "Inactivo";
               }
         }
 
@@ -56,7 +56,7 @@ commission.btnAdd.addEventListener('click', () => {
     cleanError();
     cleanModal();
 
-    commission.modalTitle.text("Crear Comisión");
+    commission.modalTitle.text("Crear Ventanilla");
     commission.btnUpdate.hide();
     commission.btnSave.show();
     $('#modalCommission').modal('show');
@@ -67,7 +67,7 @@ function Editar(btn){
 
     cleanError();
     cleanModal();
-    commission.modalTitle.text("Editar Comisión");
+    commission.modalTitle.text("Editar Ventanilla");
     commission.form.append('<input type="hidden" name="_method" value="PUT" />');
 
     commission.btnSave.hide();
@@ -76,12 +76,10 @@ function Editar(btn){
     const route = '/admin/commission/'+_id;
     $.get(route, function(p){
 
-        const {id, title, president, members, published} = p;
+        const {id, title, published} = p;
 
         document.querySelector(`${commission.formId} input[name="id"]`).value = id; 
         document.querySelector(`${commission.formId} input[name="title"]`).value = title; 
-        document.querySelector(`${commission.formId} input[name="president"]`).value = president; 
-        document.querySelector(`${commission.formId} textarea[name="members"]`).value = members;
         document.querySelector(`${commission.formId} select[name="published"]`).value = published;
 
         $('#modalCommission').modal('show');
@@ -95,7 +93,7 @@ function Eliminar(btn){
     const id = btn.value;
 
     Swal.fire({
-    title: `Eliminar Comisión`,
+    title: `Eliminar Ventanilla`,
     showCancelButton: true,
     confirmButtonText: `Confirmar`,
     cancelButtonText: `Cancelar`,

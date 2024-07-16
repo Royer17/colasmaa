@@ -25,7 +25,6 @@ class CreateCommissionRequest extends FormRequest
     {
         return [
             'title' => 'required',
-            'president' => 'required',
         ]; 
     }
 }

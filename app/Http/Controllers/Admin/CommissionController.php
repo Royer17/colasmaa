@@ -80,6 +80,8 @@ class CommissionController extends Controller {
         $data = $request->except(['id']);
 
         $commission = new Commission();
+        $commission->president = "";
+        $commission->members = "";
         $commission->fill($data);
         $commission->save();
 

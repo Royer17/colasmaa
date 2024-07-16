@@ -52,6 +52,7 @@
                     <th style="width: 150px;">#</th>
                     <th style="width: 350px;">Nombre</th>
                     <th style="width: 100px;">Sigla</th>
+                    <th style="width: 350px;">Ventanilla</th>
                     <th style="width: 100px;">Posición</th>
                     <!-- <th style="width: 100px;">Imagen</th> -->
                     <th style="width: 100px;">Estado</th>
@@ -63,6 +64,7 @@
                     <td></td>
                     <!-- <td></td> -->
   				          <td></td>
+                    <td></td>
                     <td></td>
                     <td></td>
   				          <td></td>

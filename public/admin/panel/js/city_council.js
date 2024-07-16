@@ -25,10 +25,11 @@ $datatable = $('#city-council-datatable').DataTable({
     destroy:true,
     ajax: `/admin/city-council-datatable?role_id=${roleId}`,
     columns: [
-        {data:'id', name: 'id', 'searchable': false},
-        {data:'email', name: 'email', 'searchable': false},
-        {data:'name', name: 'name', 'searchable': true},
-        {data:'position', name: 'position', 'searchable': true},
+        {data:'id', name: 'city_council.id', 'searchable': false},
+        {data:'name', name: 'city_council.name', 'searchable': true},
+        {data:'email', name: 'city_council.email', 'searchable': false},
+        {data:'ventanilla_name', name: 'commissions.title', 'searchable': true},
+        {data:'position', name: 'city_council.position', 'searchable': true},
         // {data:'Image', 'searchable': false},
         {data:'published', 'searchable': false},
         {data:'Actions', 'searchable': false}
@@ -39,7 +40,7 @@ $datatable = $('#city-council-datatable').DataTable({
              "aTargets": [0]
         },
         {
-              "aTargets": [ 4 ],
+              "aTargets": [ 5 ],
               "mData": "published",
               "mRender": function ( data, type, full ) {
 
@@ -76,13 +77,14 @@ function Editar(btn){
     const route = '/admin/city-council/'+_id;
     $.get(route, function(p){
 
-        const {id, position, name, email, photo, published} = p;
+        const {id, position, name, email, photo, published, commission_id} = p;
 
         document.querySelector(`${city_council.formId} input[name="id"]`).value = id; 
         document.querySelector(`${city_council.formId} input[name="position"]`).value = position; 
         document.querySelector(`${city_council.formId} input[name="name"]`).value = name; 
         document.querySelector(`${city_council.formId} input[name="email"]`).value = email;
         document.querySelector(`${city_council.formId} select[name="published"]`).value = published;
+        document.querySelector(`${city_council.formId} select[name="commission_id"]`).value = commission_id;
 
         // if(photo){
         //     document.querySelector(`${city_council.formId} img`).setAttribute('src', `${photo}`);

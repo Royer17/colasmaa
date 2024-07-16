@@ -6,6 +6,7 @@ use App\CityCouncil;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCityCouncilRequest;
 use App\Schedule;
+use App\Commission;
 use App\Utils\Helpers;
 use Carbon\Carbon;
 use DB;
@@ -34,8 +35,10 @@ class CityCouncilController extends Controller {
         	return redirect('/admin/dashboard');
         }
 
+        $ventanillas = Commission::wherePublished(1)
+        	->get(['id', 'title']);
 
-		return View::make('admin.city_council.datatable');
+		return View::make('admin.city_council.datatable', compact('ventanillas'));
 	}
 
 	public function get_datatable(Request $request)
@@ -43,8 +46,9 @@ class CityCouncilController extends Controller {
 		$role_id = $request->role_id;
 		
 		$result = DB::table('city_council')
-			->select('id', 'position', 'name', 'email', 'published')
-			->where('deleted_at', NULL);
+			->leftJoin('commissions', 'city_council.commission_id', 'commissions.id')
+			->select('city_council.id', 'city_council.position', 'city_council.name', 'city_council.email', 'city_council.published', 'commissions.title as ventanilla_name')
+			->where('city_council.deleted_at', NULL);
 
 		return DataTables::of($result)
 		->escapeColumns('Image', 'Actions')

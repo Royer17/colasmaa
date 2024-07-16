@@ -48,6 +48,17 @@
                                     </div> -->
 
                                     <div class="form-group">
+                                        {{ Form::label('title', 'Ventanilla') }}
+                                        <select class="form-control" name="commission_id">
+                                            <option value="">Seleccione</option>
+                                            @foreach($ventanillas as $ventanilla)
+                                            <option value="{{ $ventanilla->id }}">{{ $ventanilla->title }}</option>
+                                            @endforeach
+                                        </select>
+                                        <div id="city-council-commission_id-error" class="text-danger mensaje-error"></div>
+                                    </div>
+
+                                    <div class="form-group">
                                         {{ Form::label('title', 'Estado') }}
                                         <select class="form-control" name="published">
                                             <option value="1">Activo</option>

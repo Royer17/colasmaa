@@ -10,8 +10,8 @@ class CityCouncil extends Model
     use SoftDeletes;
     
     protected $table = 'city_council';
-
+    
     protected $primaryKey = 'id';
     
-    protected $fillable = ['position', 'name', 'email', 'published'];
+    protected $fillable = ['position', 'name', 'email', 'published', 'commission_id'];
 }
