@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Colas;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Ticket;
+use App\CityCouncil;
 use Auth;
 
 class VentanillaController extends Controller
@@ -29,7 +30,10 @@ class VentanillaController extends Controller
             ->get();
         $tticket = $ticket->count();
 
-        return view('colas.ventanillaindex', compact('tticket','ventanilla'));
+        $office = CityCouncil::find($office_id);
+        $office_name = $office->name;
+
+        return view('colas.ventanillaindex', compact('tticket','ventanilla', 'office_name'));
 
         //$equiponombre = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         
@@ -64,7 +68,7 @@ class VentanillaController extends Controller
 
         if($ticketAbiertos){
             $ticket=$ticketAbiertos;
-            $tticket= 1;
+            //$tticket= 1;
         } else {
             $ticket = Ticket::whereDate('created_at',date('Y-m-d'))
                 ->where('estado',0)
@@ -88,7 +92,15 @@ class VentanillaController extends Controller
     }
 
     public function enatencion(Request $request){
-        $tticket = Ticket::whereDate('created_at',date('Y-m-d'))->where('estado',0)->count(); // sólo el total
+
+        $user = Auth::user();
+        $office_id = $user->office_id;
+
+        $tticket = Ticket::whereDate('created_at',date('Y-m-d'))
+            ->where('estado',0)
+            ->whereOfficeId($office_id)
+            ->count(); // sólo el total
+
         $ticket = Ticket::find($request->ide); // todo el registro
         $ticket->estado = 2;
         $ticket->save();
@@ -96,7 +108,14 @@ class VentanillaController extends Controller
     }
 
     public function encierre(Request $request){
-        $tticket = Ticket::whereDate('created_at',date('Y-m-d'))->where('estado',0)->count(); // sólo el total
+        $user = Auth::user();
+        $office_id = $user->office_id;
+
+        $tticket = Ticket::whereDate('created_at',date('Y-m-d'))
+            ->where('estado',0)
+            ->whereOfficeId($office_id)
+            ->count(); // sólo el total
+
         $ticket = Ticket::find($request->ide); // todo el registro
         $ticket->estado = 3;
         $ticket->save();

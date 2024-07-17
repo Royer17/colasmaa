@@ -26,7 +26,7 @@ Route::group(["namespace" => "Colas", "middleware" => ["auth.personalized"]], fu
     Route::get('enespera', 'VentanillaController@enespera');
     Route::get('enatencion', 'VentanillaController@enatencion');
     Route::get('encierre', 'VentanillaController@encierre');
-
+    
     // monitor
     Route::get('monitor', 'MonitorController@index');
     Route::get('monitorv2', 'MonitorController@indexv2');

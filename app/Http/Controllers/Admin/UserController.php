@@ -17,6 +17,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use Jenssegers\Date\Date;
+use App\Commission;
+use App\CityCouncil;
 
 class UserController extends Controller {
 
@@ -44,7 +46,13 @@ class UserController extends Controller {
 			->where('deleted_at', NULL)
 			->get(['id', 'name']);
 
-		return View::make('admin.users.datatable', compact('roles'));
+        $ventanillas = Commission::wherePublished(1)
+        	->get(['id', 'title']);
+
+        $offices = CityCouncil::wherePublished(1)
+            ->get(['id', 'name']);
+
+		return View::make('admin.users.datatable', compact('roles', 'ventanillas', 'offices'));
 	}
 
 	public function get_datatable(Request $request)
@@ -90,6 +98,17 @@ class UserController extends Controller {
 
 		$data = $request->except('password');
 
+
+		if ($data['office_id'] && $data['ventanilla']) {
+			$user_with_this_ventanilla = User::whereOfficeId($data['office_id'])
+				->whereVentanilla($data['ventanilla'])
+				->get();
+
+			if ($user_with_this_ventanilla) {
+				return response()->json(['success' => false, 'message' => 'Ya existe un usuario asignado a esa ventanilla.'], 400);
+			}
+		}
+
 		$user = new User();
 		$user->fill($data);
 		$user->active = 0;
@@ -120,6 +139,18 @@ class UserController extends Controller {
  public function update($id, CreateUserRequest $request)
  {
  	$data = $request->except('password');
+
+
+	if ($data['office_id'] && $data['ventanilla']) {
+		$user_with_this_ventanilla = User::whereOfficeId($data['office_id'])
+			->whereVentanilla($data['ventanilla'])
+			->where('id', '!=', $id)
+			->get();
+
+		if ($user_with_this_ventanilla) {
+			return response()->json(['success' => false, 'message' => 'Ya existe un usuario asignado a esa ventanilla.'], 400);
+		}
+	}
 
  	$user = User::find($id);
 	$user->email = $data['username'];

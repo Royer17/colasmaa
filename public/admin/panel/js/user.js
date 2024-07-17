@@ -85,7 +85,7 @@ function Editar(btn){
     const route = '/admin/user/'+_id;
     $.get(route, function(p){
 
-        const {id, role_id, name, email, cellphone, position, correo} = p;
+        const {id, role_id, name, email, cellphone, position, correo, office_id, ventanilla} = p;
 
         document.querySelector(`${user.formId} input[name="id"]`).value = id;
 
@@ -98,6 +98,8 @@ function Editar(btn){
         document.querySelector(`${user.formId} input[name="cellphone"]`).value = cellphone;
         document.querySelector(`${user.formId} input[name="position"]`).value = position;
         document.querySelector(`${user.formId} input[name="correo"]`).value = correo;
+        document.querySelector(`${user.formId} select[name="office_id"]`).value = office_id; 
+        document.querySelector(`${user.formId} select[name="ventanilla"]`).value = ventanilla; 
 
         $('#modalUser').modal('show');
     });
@@ -181,6 +183,12 @@ user.btnUpdate.on('click',function(e){
         {
             unlockWindow();
             $('#modalUser').scrollTop(0);
+
+            if (jqXHR.responseJSON.hasOwnProperty('success')) {
+                Swal.fire(`Error`, jqXHR.responseJSON.message, `warning`);
+                return;
+            }
+            
             $.each(jqXHR.responseJSON.errors, function( key, value ) {
                     $.each(value, function( errores, eror ) {
                         $(`#user-${key}-error`).append("<li class='error-block'>"+eror+"</li>");
@@ -218,6 +226,12 @@ user.btnSave.on('click',function(event){
 		{
             unlockWindow();
             $('#modalUser').scrollTop(0);
+
+            if (jqXHR.responseJSON.hasOwnProperty('success')) {
+                Swal.fire(`Error`, jqXHR.responseJSON.message, `warning`);
+                return;
+            }
+
             $.each(jqXHR.responseJSON.errors, function( key, value ) {
                     $.each(value, function( errores, eror ) {
                         $(`#user-${key}-error`).append("<li class='error-block'>"+eror+"</li>");

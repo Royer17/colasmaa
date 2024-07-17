@@ -2,7 +2,7 @@
 @section('content')
 <div class="flex justify-center items-center h-screen bg-[#163667] gap-5">
 	<div class="relative w-1/3 flex flex-col gap-5 justify-center items-center h-1/2 text-center">
-		<p class="absolute top-0 text-white text-8xl font-bold">ventanilla{{$ventanilla}}</p>
+		<p class="absolute top-0 text-white text-8xl font-bold">Ventanilla {{$ventanilla}} - {{ $office_name }}</p>
 		
 		<div id="numeroTicket" class="bg-slate-200 z-50 absolute bottom-32 px-5 rounded-2xl w-full h-2/4 flex items-center justify-center text-slate-800 md:text-7xl lg:text-8xl font-bold text-5xl">- ? -</div>
 		<div class="z-20 absolute bottom-20 px-5 rounded-2xl w-full h-2/4 flex items-center justify-center text-slate-800 bg-[#999999] md:text-7xl lg:text-8xl font-bold text-5xl"></div>
@@ -117,7 +117,9 @@ class="bg-orange-100 text-slate-400 cursor-not-allowed h-20 w-20 rounded-xl flex
 					}
 
 					console.log('funcionando')
-					numeroTicket.textContent = "TD-"+data[1]['ticket']; //imprime numero de ticket
+					//numeroTicket.textContent = "TD-"+data[1]['ticket']; //imprime numero de ticket
+					numeroTicket.textContent = data[1]['code']; //imprime numero de ticket
+
 					ide = data[1]['id'];
 					ticketsRestantes.textContent = "+"+data[0]; //imprime total
 				}
