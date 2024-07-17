@@ -241,7 +241,7 @@ setInterval(() => {
                   const tr = document.createElement('tr');
                   
                   tr.innerHTML = `<td>${element.code}</td>
-                                  <td>${element.ventanilla}</td>`;
+                                  <td>${element.ventanilla_.title}</td>`;
 
                   tbody.appendChild(tr);
 
@@ -272,7 +272,7 @@ setInterval(() => {
                   const tr = document.createElement('tr');
                   
                   tr.innerHTML = `  <td>${element.code}</td>
-                                    <td>${element.ventanilla}</td>`;
+                                    <td></td>`;
 
                   tbody.appendChild(tr);
                 });

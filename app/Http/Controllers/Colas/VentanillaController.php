@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Ticket;
 use App\CityCouncil;
 use Auth;
+use App\Commission;
 
 class VentanillaController extends Controller
 {   
@@ -24,6 +25,9 @@ class VentanillaController extends Controller
 
         $office_id = $user->office_id;
         $ventanilla= $user->ventanilla;
+
+        $ventanilla_name = Commission::find($ventanilla)->title;
+
         $ticket = Ticket::whereDate('created_at',date('Y-m-d'))
             ->where('estado',0)
             ->whereOfficeId($office_id)
@@ -33,7 +37,7 @@ class VentanillaController extends Controller
         $office = CityCouncil::find($office_id);
         $office_name = $office->name;
 
-        return view('colas.ventanillaindex', compact('tticket','ventanilla', 'office_name'));
+        return view('colas.ventanillaindex', compact('tticket','ventanilla', 'office_name', 'ventanilla_name'));
 
         //$equiponombre = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         

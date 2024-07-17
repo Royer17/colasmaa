@@ -39,6 +39,7 @@ class MonitorController extends Controller
 
     public function cargav2(Request $request){
         $ticket = Ticket::select('ticket','estado','ventanilla', 'code')
+            ->with('ventanilla_')
             ->whereDate('created_at',date('Y-m-d'))
             ->whereIn('estado',[1,2])
             ->orderBy('ticket','asc')

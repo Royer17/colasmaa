@@ -100,12 +100,12 @@ class UserController extends Controller {
 
 
 		if ($data['office_id'] && $data['ventanilla']) {
-			$user_with_this_ventanilla = User::whereOfficeId($data['office_id'])
-				->whereVentanilla($data['ventanilla'])
-				->get();
+			$user_with_this_ventanilla = User::whereVentanilla($data['ventanilla'])
+				->get()
+				->toArray();
 
-			if ($user_with_this_ventanilla) {
-				return response()->json(['success' => false, 'message' => 'Ya existe un usuario asignado a esa ventanilla.'], 400);
+			if (count($user_with_this_ventanilla)) {
+				return response()->json(['success' => false, 'message' => 'Ya existe un usuario asignado a esa ventanilla.', 'user' => $user_with_this_ventanilla], 400);
 			}
 		}
 
@@ -142,12 +142,12 @@ class UserController extends Controller {
 
 
 	if ($data['office_id'] && $data['ventanilla']) {
-		$user_with_this_ventanilla = User::whereOfficeId($data['office_id'])
-			->whereVentanilla($data['ventanilla'])
+		$user_with_this_ventanilla = User::whereVentanilla($data['ventanilla'])
 			->where('id', '!=', $id)
-			->get();
+			->get()
+			->toArray();
 
-		if ($user_with_this_ventanilla) {
+		if (count($user_with_this_ventanilla)) {
 			return response()->json(['success' => false, 'message' => 'Ya existe un usuario asignado a esa ventanilla.'], 400);
 		}
 	}

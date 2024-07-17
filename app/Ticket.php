@@ -15,5 +15,9 @@ class Ticket extends Model
     
     protected $fillable = [];
 
+    public function ventanilla_()
+    {
+        return $this->belongsTo('App\Commission', 'ventanilla');
+    }
 
 }

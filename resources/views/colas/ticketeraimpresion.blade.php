@@ -110,7 +110,7 @@
             <div class="image-contenedor">
                 <img src="{{url('img/colas/figura.png')}}">
                 <p class="turno-text">Tu Turno es:</p>
-                <p class="ticket-number">TD-{{$ticket->ticket}}</p>
+                <p class="ticket-number">{{$ticket->code}}</p>
                 <p class="ticket-date">{{ date('d/m/Y', strtotime($ticket->created_at))}}</p>
                 <p class="ticket-time">{{ date('h:i a', strtotime($ticket->created_at))}}</p>
             </div>
