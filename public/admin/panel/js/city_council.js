@@ -77,10 +77,11 @@ function Editar(btn){
     const route = '/admin/city-council/'+_id;
     $.get(route, function(p){
 
-        const {id, position, name, email, photo, published, commission_id} = p;
+        const {id, position, name, email, photo, published, commission_id, icon} = p;
 
         document.querySelector(`${city_council.formId} input[name="id"]`).value = id; 
         document.querySelector(`${city_council.formId} input[name="position"]`).value = position; 
+        document.querySelector(`${city_council.formId} input[name="icon"]`).value = icon;
         document.querySelector(`${city_council.formId} input[name="name"]`).value = name; 
         document.querySelector(`${city_council.formId} input[name="email"]`).value = email;
         document.querySelector(`${city_council.formId} select[name="published"]`).value = published;

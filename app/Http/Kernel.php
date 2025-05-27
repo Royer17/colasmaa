@@ -62,5 +62,6 @@ class Kernel extends HttpKernel
         'check_imagen' => \App\Http\Middleware\CheckImagen::class,
         'check_recursos' => \App\Http\Middleware\CheckRecursos::class,
         'check_asesoria' => \App\Http\Middleware\CheckAsesoria::class,
+        'is.superadmin' => \App\Http\Middleware\IsSuperadmin::class,
     ];
 }

@@ -47,7 +47,12 @@ class LoginController extends Controller
     public function authenticate(Request $request) {
         if (Auth::attempt(['email' => $request->username, 'password' => $request->password])) {
 
-            return redirect()->intended('admin/dashboard');
+            if (Auth::user()->is_superadmin == 1) {
+                //dd('superadmin');
+                return redirect('/admin/dashboard');
+            }
+
+            return redirect()->intended('/');
 
         } else {
             return redirect()->intended('/panel')->with('data', ['Nombre de usuario y/o Contraseña Incorrectas']);

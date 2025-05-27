@@ -68,6 +68,8 @@ Route::group(["namespace" => "Colasv2", "prefix" => "colasv2"], function () {
     Route::get('/', 'TicketController@index');
     Route::post('/', 'TicketController@create');
 
+    Route::get('manejo-de-tickets', 'VentanillaController@index');
+
 });
 
 
@@ -188,7 +190,7 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 //     ]);
 // });
 
-Route::group(["namespace" => "Admin", "prefix" => "admin", "middleware" => ["auth.personalized"]], function () {
+Route::group(["namespace" => "Admin", "prefix" => "admin", "middleware" => ["auth.personalized", "is.superadmin"]], function () {
 
     Route::get('dashboard', 'HomeController@dashboard_view');
     Route::get('municipalidad', 'HomeController@municipality_view');

@@ -12,14 +12,14 @@ class TicketController extends Controller
     public function index(Request $request){
         //areas
         $offices = CityCouncil::wherePublished(1)
-            ->get(['id', 'name']);
+            ->get(['id', 'name', 'icon']);
 
         return view('colasv2.landing.ticketing', compact('offices'));
     }
 
     public function create(Request $request){
 
-        $office = CityCouncil::find($request->office_id);
+        $office = CityCouncil::find($request->type);
 
         if (!$office) {
             throw new \Exception("No existe la oficina seleccionada.", 1);
@@ -51,8 +51,8 @@ class TicketController extends Controller
         $ticket = new Ticket;
         $ticket->ticket = $nticket;
         $ticket->code = $office_code.str_repeat("0", $nticket_zeros_missing).$nticket;
-        $ticket->dni = $request->dni;
-        $ticket->office_id = $request->office_id;
+        $ticket->dni = '########';
+        $ticket->office_id = $office->id;
         $ticket->estado = 0;
         $ticket->ventanilla = "";
         //0 = EN ESPERA
@@ -62,6 +62,12 @@ class TicketController extends Controller
         //4 = NO SE PRESENTO
         $ticket->save();
 
-        return view('colasv2.ticketeraimpresion',compact('ticket'));
+        return response()->json([
+            'ticketNumber' => $ticket->code,
+            'estimatedTime' => '15',
+            'message' => 'Ticket creado correctamente',
+            'symbol' => 'success'
+        ]);
+        //return view('colasv2.ticketeraimpresion',compact('ticket'));
     }
 }

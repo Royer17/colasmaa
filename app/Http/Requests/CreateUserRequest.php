@@ -48,7 +48,7 @@ class CreateUserRequest extends FormRequest
             return [
                 'username' => "required|min:8|unique:users,email," . $this->input('id') . ",id,deleted_at,NULL",
                 'name' => 'required',
-                'correo' => 'required',
+                //'correo' => 'required',
                 'role_id' => 'required',
                 'password' => 'required|min:8|confirmed',
                 'password_confirmation' => 'required|min:8',
@@ -57,7 +57,7 @@ class CreateUserRequest extends FormRequest
 
         return [
             'username' => "required|min:8|unique:users,email," . $this->input('id') . ",id,deleted_at,NULL",
-            'correo' => 'required',
+            //'correo' => 'required',
             'name' => 'required',
             'role_id' => 'required',
         ]; 

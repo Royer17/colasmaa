@@ -147,6 +147,15 @@
 
   <div class="main-container">
     <div class="buttons-container">
+
+      @foreach($offices as $office)
+      <button class="service-btn" onclick="generateTicket('{{$office->id}}')">
+        {{ucfirst(strtolower($office->name))}}
+        {!! $office->icon !!}
+      </button>
+      @endforeach
+
+      {{-- 
       <button class="service-btn" onclick="generateTicket('ATG')">
         Atención General
         <i class="bi bi-people-fill"></i>
@@ -161,11 +170,14 @@
         Caja de Pagos
         <i class="bi bi-cash"></i>
       </button>
+      --}}
       
+      {{--
       <button class="service-btn" onclick="generateTicket('SES')">
         Servicios Especiales
         <i class="bi bi-star-fill"></i>
       </button>
+      --}}
     </div>
   </div>
 
@@ -221,6 +233,10 @@
             document.getElementById('printSound').play().catch(error => {
                 console.log('Audio play prevented by browser policy. User interaction needed first.');
             });
+
+            setTimeout(() => {
+                ticketModal.hide();
+            }, 3000);
         })
         .catch(error => {
             console.error('Error generating ticket:', error);
@@ -252,9 +268,6 @@
     //   });
       
       // Auto close modal after 3 seconds
-      setTimeout(() => {
-        ticketModal.hide();
-      }, 3000);
     }
   </script>
 </body>

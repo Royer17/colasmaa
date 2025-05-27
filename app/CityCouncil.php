@@ -13,5 +13,5 @@ class CityCouncil extends Model
     
     protected $primaryKey = 'id';
     
-    protected $fillable = ['position', 'name', 'email', 'published', 'commission_id'];
+    protected $fillable = ['position', 'name', 'email', 'published', 'commission_id', 'icon'];
 }

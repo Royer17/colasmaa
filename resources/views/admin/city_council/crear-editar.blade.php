@@ -37,7 +37,13 @@
                                     <div class="form-group">
                                         {{ Form::label('content', 'Posición') }}
                                         <input type="text" name="position" class="form-control" placeholder="Cargo">
-                                        <div id="city-council-subject-error" class="text-danger mensaje-error"></div>
+                                        <div id="city-council-position-error" class="text-danger mensaje-error"></div>
+                                    </div>  
+
+                                    <div class="form-group">
+                                        {{ Form::label('content', 'Icono') }}
+                                        <input type="text" name="icon" class="form-control" placeholder="Icono">
+                                        <div id="city-council-icon-error" class="text-danger mensaje-error"></div>
                                     </div>
                                 
 

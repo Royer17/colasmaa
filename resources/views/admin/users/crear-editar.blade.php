@@ -77,7 +77,7 @@
                                         {{ Form::label('content', 'Oficina') }}
                                         
                                         <select name="office_id" class="form-control">
-                                            <option value="">Seleccione</option>
+                                            <option value="0">Seleccione</option>
                                             @foreach($offices as $office)
                                             <option value="{{ $office->id }}">{{ $office->name }}</option>
                                             @endforeach
@@ -88,7 +88,7 @@
                                         {{ Form::label('content', 'Ventanilla') }}
 
                                         <select name="ventanilla" class="form-control">
-                                            <option value="">Seleccione</option>
+                                            <option value="0">Seleccione</option>
                                             @foreach($ventanillas as $ventanilla)
                                             <option value="{{ $ventanilla->id }}">{{ $ventanilla->title }}</option>
                                             @endforeach
