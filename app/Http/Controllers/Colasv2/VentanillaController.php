@@ -8,6 +8,7 @@ use App\Ticket;
 use App\CityCouncil;
 use Auth;
 use App\Commission;
+use DB;
 
 class VentanillaController extends Controller
 {   
@@ -20,16 +21,14 @@ class VentanillaController extends Controller
             return "Sin Acceso. El usuario no tiene asignado una oficina.";
         }
 
-        // if (!$user->ventanilla) {
-        //     return "Sin Acceso. El usuario no tiene asignado una ventanilla.";
-        // }
+        if (!$user->ventanilla) {
+            return "Sin Acceso. El usuario no tiene asignado una ventanilla.";
+        }
 
         $office_id = $user->office_id;
-        //$ventanilla= $user->ventanilla;
+        $ventanilla= $user->ventanilla;
 
-        //$ventanilla_name = Commission::find($ventanilla)->title;
-        $ventanilla = null;
-        $ventanilla_name = null;
+        $ventanilla_name = Commission::find($ventanilla)->title;
 
         $ticket = Ticket::whereDate('created_at',date('Y-m-d'))
             ->where('estado',0)
@@ -67,6 +66,99 @@ class VentanillaController extends Controller
         return response()->json([
             'tickets_waiting' => $tickets_waiting
         ]);
+    }
+
+    public function current_ticket(Request $request){
+        $user = Auth::user();
+        $office_id = $user->office_id;
+        $ventanilla= $user->ventanilla;
+
+        //ticket llamado
+        $ticket = Ticket::whereDate('created_at',date('Y-m-d'))
+            ->where('estado',1)
+            ->whereOfficeId($office_id)
+            ->where('ventanilla',$ventanilla)
+            ->select('id', 'code', 'type', 'created_at as arrivalTime', 'estado as status')
+            ->first();
+
+        if(!$ticket){
+            //ticket siento atendido
+            $ticket = Ticket::whereDate('created_at',date('Y-m-d'))
+                ->where('estado',2)
+                ->whereOfficeId($office_id)
+                ->select('id', 'code', 'type', 'created_at as arrivalTime', 'estado as status')
+                ->first();
+        }
+
+        return response()->json([
+            'ticket' => $ticket
+        ]);
+    }
+
+    public function llamar_ticket(Request $request){
+
+        try {
+
+            DB::beginTransaction();
+            $ticket_id = $request->ticket_id;
+
+            $user = Auth::user();
+
+            $ticket = Ticket::find($ticket_id);
+            $ticket->estado = 1;
+            $ticket->ventanilla = $user->ventanilla;
+            $ticket->save();
+
+            DB::commit();
+            return response()->json($ticket);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json($th);
+        }
+    }
+
+    public function atender_ticket(Request $request){
+        try {
+            DB::beginTransaction();
+            //$ticket_id = $request->ticket_id;
+
+            $user = Auth::user();
+            $office_id = $user->office_id;
+            $ventanilla= $user->ventanilla;
+
+            $ticket = Ticket::whereDate('created_at',date('Y-m-d'))
+                ->where('estado',1)
+                ->whereOfficeId($office_id)
+                ->where('ventanilla',$ventanilla)
+                ->select('id', 'code', 'type', 'created_at as arrivalTime', 'estado as status')
+                ->first();
+
+            $ticket->estado = 2;
+            $ticket->save();
+
+            DB::commit();
+            return response()->json($ticket);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json($th);
+        }
+    }
+
+    public function terminar_ticket(Request $request){
+        try {
+            DB::beginTransaction();
+            $ticket_id = $request->ticket_id;
+
+            $ticket = Ticket::find($ticket_id);
+            $ticket->estado = 2;
+            $ticket->save();
+
+            DB::commit();
+            return response()->json($ticket);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json($th);
+        }
     }
 
     public function llamar(Request $request){

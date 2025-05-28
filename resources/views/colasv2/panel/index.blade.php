@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Sistema de Colas</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
@@ -16,7 +17,7 @@
         <button class="btn pause-btn" id="pauseBtn">
           <i class="bi bi-pause-fill"></i> Pausar
         </button>
-        <h1 class="system-title">{{ $office_name }}</h1>
+        <h1 class="system-title">{{ $office_name }} - Ventanilla {{ $ventanilla_name }}</h1>
         <div class="agent-info">
           <span class="ticket-number">04</span>
           <span class="agent-name text-capitalize">{{ strtolower($user_name) }}</span>
@@ -28,9 +29,9 @@
     <!-- Main Content -->
     <div class="row g-0 main-content">
       <!-- Left Panel - Current Customer -->
-      <div class="col-lg-6 current-customer-panel">
+      <div class="row col-lg-6 current-customer-panel">
         <div class="current-customer-card">
-          <div class="serving-label">Atendiendo a</div>
+          <div class="serving-label"></div>
           <div class="customer-number" id="customerNumber">P18</div>
           <div class="customer-type" id="customerType">Preferencial</div>
           
@@ -49,6 +50,10 @@
               <div class="info-value" id="waitTime">00:02:59</div>
             </div>
           </div>
+        </div>
+
+        <div class="text-center">
+          <button class="btn btn-lg btn-primary" id="attendBtn">Atender</button>
         </div>
       </div>
       
@@ -170,6 +175,29 @@
 
 
   <script>
+
+    fetch('/colasv2/current-ticket')
+        .then(response => response.json())
+        .then(data => {
+            currentTicketData = data.ticket;
+
+            if(currentTicketData){
+              //llamando
+              if(currentTicketData.status == 1){
+                elements.servingLabel.textContent = 'Llamando a';
+                updateCurrentCustomerDisplay(data.ticket);
+              }
+              
+              //terminado
+              if(currentTicketData.status == 2){
+                elements.servingLabel.textContent = 'Atendiendo a';
+                updateCurrentCustomerDisplay(data.ticket);
+              }        
+            }
+
+        });
+
+
     setInterval(() => {
 
         fetch('/colasv2/enespera')

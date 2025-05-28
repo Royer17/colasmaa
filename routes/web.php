@@ -52,6 +52,10 @@ Route::group(["namespace" => "Colasv2", "prefix" => "colasv2", "middleware" => [
 
     Route::get('ventanilla', 'VentanillaController@index');
     Route::get('llamar', 'VentanillaController@llamar');
+    Route::get('current-ticket', 'VentanillaController@current_ticket');
+    Route::post('llamar-ticket', 'VentanillaController@llamar_ticket');
+    Route::post('atender-ticket', 'VentanillaController@atender_ticket');
+    Route::post('terminar-ticket', 'VentanillaController@terminar_ticket');
     Route::get('enespera', 'VentanillaController@enespera');
 
     Route::get('enatencion', 'VentanillaController@enatencion');

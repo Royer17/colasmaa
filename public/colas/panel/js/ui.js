@@ -5,6 +5,9 @@
 
 // UI Elements
 const elements = {
+    //status call
+    servingLabel: document.querySelector('.serving-label'),
+
     // Customer info
     customerNumber: document.getElementById('customerNumber'),
     customerType: document.getElementById('customerType'),
@@ -16,6 +19,7 @@ const elements = {
     totalQueue: document.getElementById('totalQueue'),
     
     // Action buttons
+    attendBtn: document.getElementById('attendBtn'),
     callBtn: document.getElementById('callBtn'),
     endServiceBtn: document.getElementById('endServiceBtn'),
     skipBtn: document.getElementById('skipBtn'),
@@ -62,14 +66,14 @@ const elements = {
     
     // Apply animation
     elements.customerNumber.classList.add('pulse');
-    setTimeout(() => {
-      elements.customerNumber.classList.remove('pulse');
-    }, 500);
+    // setTimeout(() => {
+    //   elements.customerNumber.classList.remove('pulse');
+    // }, 500);
     
     // Update display
     elements.customerNumber.textContent = customer.code;
     elements.customerType.textContent = customer.type;
-    elements.customerRut.textContent = customer.rut || '-';
+    elements.customerRut.textContent = '-';
     
     // Update wait time
     updateWaitTime(customer.arrivalTime);
@@ -189,25 +193,36 @@ const elements = {
     }
     
     // Find the customer by ID
-    const customerToCall = waitingCustomers.find(c => c.id === customerId);
-    if (customerToCall) {
+    //const customerToCall = waitingCustomers.find(c => c.id === customerId);
+    if (customerId) {
       //update on server
-      // fetch('/colasv2/call', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify({
-      //     customer_id: customerId
-      //   })
-      // })
-      // .then(response => response.json())
-      // .then(data => {
-      //   console.log(data);
-      // });
+      fetch('/colasv2/llamar-ticket', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({
+          ticket_id: customerId
+        })
+      })
+      .then((response) => {
+        if (response.ok) {
+            return response.json();
+        }
+        return Promise.reject(response);
+      })
+      .then(data => {
+        data.arrivalTime = data.created_at;
+        elements.servingLabel.textContent = 'Atendiendo a';
+        updateCurrentCustomerDisplay(data);
+        updateQueueStatus();
+      })
+      .catch(error => {
+        console.error('Error al llamar al cliente:', error);
+        alert('Error al llamar al cliente. Intente nuevamente.');
+      });
       //customerToCall.status = 'serving';
-      updateCurrentCustomerDisplay(customerToCall);
-      updateQueueStatus();
     }
   }
   
@@ -221,6 +236,44 @@ const elements = {
     updateQueueStatus();
     
     // Set up event listeners
+
+    elements.attendBtn.addEventListener('click', () => {
+      //const currentCustomer = window.queueDataService.getCurrentCustomer();
+      // if (currentCustomer) {
+      //   playCallSound();
+      //   elements.customerNumber.classList.add('pulse');
+      //   setTimeout(() => {
+      //     elements.customerNumber.classList.remove('pulse');
+      //   }, 500);
+      // }
+      fetch('/colasv2/atender-ticket', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({
+          //ticket_id: 'P18'
+        })
+      })
+      .then((response) => {
+        if (response.ok) {
+            return response.json();
+        }
+        return Promise.reject(response);
+      })
+      .then(data => {
+        elements.servingLabel.textContent = 'Atendiendo a';
+        updateCurrentCustomerDisplay(data);
+        updateQueueStatus();
+      })
+      .catch(error => {
+        console.error('Error al llamar al cliente:', error);
+        alert('Error al llamar al cliente. Intente nuevamente.');
+      });
+
+    });
+
     elements.callBtn.addEventListener('click', () => {
       const currentCustomer = window.queueDataService.getCurrentCustomer();
       if (currentCustomer) {
