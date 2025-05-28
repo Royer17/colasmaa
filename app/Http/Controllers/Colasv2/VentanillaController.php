@@ -13,21 +13,23 @@ class VentanillaController extends Controller
 {   
     public function index(Request $request){
             
-        return "soy un empleado!";
         $user = Auth::user();
+        $user_name = $user->name;
 
         if (!$user->office_id) {
             return "Sin Acceso. El usuario no tiene asignado una oficina.";
         }
 
-        if (!$user->ventanilla) {
-            return "Sin Acceso. El usuario no tiene asignado una ventanilla.";
-        }
+        // if (!$user->ventanilla) {
+        //     return "Sin Acceso. El usuario no tiene asignado una ventanilla.";
+        // }
 
         $office_id = $user->office_id;
-        $ventanilla= $user->ventanilla;
+        //$ventanilla= $user->ventanilla;
 
-        $ventanilla_name = Commission::find($ventanilla)->title;
+        //$ventanilla_name = Commission::find($ventanilla)->title;
+        $ventanilla = null;
+        $ventanilla_name = null;
 
         $ticket = Ticket::whereDate('created_at',date('Y-m-d'))
             ->where('estado',0)
@@ -38,7 +40,7 @@ class VentanillaController extends Controller
         $office = CityCouncil::find($office_id);
         $office_name = $office->name;
 
-        return view('colas.ventanillaindex', compact('tticket','ventanilla', 'office_name', 'ventanilla_name'));
+        return view('colasv2.panel.index', compact('tticket','ventanilla', 'office_name', 'ventanilla_name', 'user_name'));
 
         //$equiponombre = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         
@@ -54,6 +56,20 @@ class VentanillaController extends Controller
     }
 
     public function enespera(Request $request){
+        $user = Auth::user();
+        $office_id = $user->office_id;
+
+        $tickets_waiting = Ticket::whereDate('created_at',date('Y-m-d'))
+            ->where('estado',0)
+            ->whereOfficeId($office_id)
+            ->get(['id', 'code', 'type', 'created_at as arrivalTime']);
+
+        return response()->json([
+            'tickets_waiting' => $tickets_waiting
+        ]);
+    }
+
+    public function llamar(Request $request){
         
         $user = Auth::user();
         $office_id = $user->office_id;
@@ -63,6 +79,11 @@ class VentanillaController extends Controller
             ->where('estado',0)
             ->whereOfficeId($office_id)
             ->count();
+
+        $tickets_waiting = Ticket::whereDate('created_at',date('Y-m-d'))
+            ->where('estado',0)
+            ->whereOfficeId($office_id)
+            ->get(['id', 'code']);
 
         //Logeado como ventanilla 2 
         $ticketAbiertos= Ticket::whereDate('updated_at',date('Y-m-d'))
@@ -91,9 +112,11 @@ class VentanillaController extends Controller
         }
          
         // sólo el total
-
-
-        return response()->json([$tticket, $ticket]);
+        return response()->json([
+            'queue' => $tticket,
+            'ticket' => $ticket,
+            'tickets_waiting' => $tickets_waiting
+        ]);
     }
 
     public function enatencion(Request $request){

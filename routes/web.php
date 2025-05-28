@@ -47,8 +47,13 @@ Route::group(["namespace" => "Colasv2", "prefix" => "colasv2", "middleware" => [
     //Route::post('/', 'TicketController@create');
     
     // ventanilla
+    Route::get('manejo-de-tickets', 'VentanillaController@index');
+
+
     Route::get('ventanilla', 'VentanillaController@index');
+    Route::get('llamar', 'VentanillaController@llamar');
     Route::get('enespera', 'VentanillaController@enespera');
+
     Route::get('enatencion', 'VentanillaController@enatencion');
     Route::get('encierre', 'VentanillaController@encierre');
     
@@ -67,8 +72,6 @@ Route::group(["namespace" => "Colasv2", "prefix" => "colasv2", "middleware" => [
 Route::group(["namespace" => "Colasv2", "prefix" => "colasv2"], function () {
     Route::get('/', 'TicketController@index');
     Route::post('/', 'TicketController@create');
-
-    Route::get('manejo-de-tickets', 'VentanillaController@index');
 
 });
 
