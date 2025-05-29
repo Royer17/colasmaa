@@ -63,7 +63,6 @@ Route::group(["namespace" => "Colasv2", "prefix" => "colasv2", "middleware" => [
     Route::get('encierre', 'VentanillaController@encierre');
     
     // monitor
-    Route::get('monitor', 'MonitorController@index');
     Route::get('monitorv2', 'MonitorController@indexv2');
 
     Route::get('monitorcarga', 'MonitorController@carga');
@@ -75,6 +74,9 @@ Route::group(["namespace" => "Colasv2", "prefix" => "colasv2", "middleware" => [
 });
 
 Route::group(["namespace" => "Colasv2", "prefix" => "colasv2"], function () {
+    Route::get('monitor', 'MonitorController@index');
+
+
     Route::get('/', 'TicketController@index');
     Route::post('/', 'TicketController@create');
 
