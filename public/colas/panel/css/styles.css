@@ -3,6 +3,8 @@
     --primary-dark: #004b96;
     --secondary-color: #c83e3e;
     --secondary-dark: #a12e2e;
+    --green-color: #2a9d8f;
+    --green-dark: #19796d;
     --accent-color: #8a2be2;
     --accent-dark: #6a1ca2;
     --success-color: #28a745;
@@ -170,7 +172,7 @@
     align-items: center;
   }
   
-  .call-btn {
+  /* .call-btn {
     background-color: rgba(255,255,255,0.2);
     color: white;
     border: none;
@@ -182,7 +184,7 @@
   
   .call-btn:hover {
     background-color: rgba(255,255,255,0.3);
-  }
+  } */
   
   .action-buttons {
     display: flex;
@@ -205,6 +207,17 @@
   
   .action-btn i {
     font-size: 1.2rem;
+  }
+
+  .call-btn {
+    padding: 16px;
+    font-size: 1.5rem;
+    background-color: var(--green-color);
+    color: white;
+  }
+  
+  .call-btn:hover {
+    background-color: var(--green-dark);
   }
   
   .end-btn {
@@ -243,6 +256,11 @@
     background-color: var(--accent-dark);
   }
   
+  [disabled] {
+    cursor: not-allowed;
+  }
+
+
   /* Footer Styles */
   .footer-bar {
     background-color: #1a3a5f;

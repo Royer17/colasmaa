@@ -29,7 +29,7 @@
     <!-- Main Content -->
     <div class="row g-0 main-content">
       <!-- Left Panel - Current Customer -->
-      <div class="row col-lg-6 current-customer-panel">
+      <div class="col-lg-6 current-customer-panel">
         <div class="current-customer-card">
           <div class="serving-label"></div>
           <div class="customer-number" id="customerNumber">P18</div>
@@ -51,16 +51,12 @@
             </div>
           </div>
         </div>
-
-        <div class="text-center">
-          <button class="btn btn-lg btn-primary" id="attendBtn">Atender</button>
-        </div>
       </div>
       
       <!-- Right Panel - Actions -->
       <div class="col-lg-6 actions-panel">
         <!-- Queue Status -->
-        <div class="queue-status">
+        <div class="queue-status d-none">
           <span id="currentPosition">0</span> / <span id="totalQueue">2</span>
           <button class="call-btn" id="callBtn">
             Rellamar <i class="bi bi-volume-up"></i>
@@ -69,19 +65,27 @@
         
         <!-- Action Buttons -->
         <div class="action-buttons">
-          <button class="action-btn end-btn" id="endServiceBtn">
+          <button class="action-btn call-btn" id="callServiceBtn">
+            Siguiente número <i class="bi bi-play-fill"></i>
+          </button>
+
+          <button class="action-btn call-skipped-btn" id="attendBtn" disabled>
+            Iniciar atención <i class="bi bi-pencil-square"></i>
+          </button>
+
+          <button class="action-btn end-btn" id="endServiceBtn" disabled>
             Terminar atención <i class="bi bi-x-lg"></i>
           </button>
           
-          <button class="action-btn skip-btn" id="skipBtn">
+          <button class="action-btn skip-btn" id="skipBtn" disabled>
             Saltar número <i class="bi bi-trash"></i>
           </button>
           
-          <button class="action-btn call-skipped-btn" id="callSkippedBtn">
+          <!-- <button class="action-btn call-skipped-btn" id="callSkippedBtn">
             Llamar Saltado <i class="bi bi-pencil-square"></i>
-          </button>
+          </button> -->
           
-          <button class="action-btn transfer-btn" id="transferBtn">
+          <button class="action-btn transfer-btn" id="transferBtn" disabled>
             Derivar Número <i class="bi bi-arrow-right"></i>
           </button>
         </div>
@@ -180,23 +184,28 @@
         .then(response => response.json())
         .then(data => {
             currentTicketData = data.ticket;
+            ticketId = data.ticket.id;
 
             if(currentTicketData){
               //llamando
               if(currentTicketData.status == 1){
                 elements.servingLabel.textContent = 'Llamando a';
                 updateCurrentCustomerDisplay(data.ticket);
+                elements.callServiceBtn.disabled = true;
+                elements.attendBtn.disabled = false;
               }
               
               //terminado
               if(currentTicketData.status == 2){
                 elements.servingLabel.textContent = 'Atendiendo a';
                 updateCurrentCustomerDisplay(data.ticket);
+                elements.callServiceBtn.disabled = true;
+                elements.attendBtn.disabled = true;
+                elements.endServiceBtn.disabled = false;
               }        
             }
 
         });
-
 
     setInterval(() => {
 
@@ -210,6 +219,40 @@
             });
         //console.log('hola');
     }, 5000);
+
+    document.getElementById('callServiceBtn').addEventListener('click', () => {
+      fetch('/colasv2/siguiente-ticket', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({
+        })
+      })
+      .then((response) => {
+        if (response.ok) {
+            return response.json();
+        }
+        return Promise.reject(response);
+      })
+      .then(data => {
+        elements.servingLabel.textContent = 'Llamando a';
+        updateCurrentCustomerDisplay(data.ticket);
+        ticketId = data.ticket.id;
+        updateQueueStatus();
+
+        elements.callServiceBtn.disabled = true;
+        elements.attendBtn.disabled = false;
+      })
+      .catch(error => {
+        error.json().then((json) => {
+          alert(json.message);
+        });
+      });
+
+
+    });
 
   </script>
 </body>

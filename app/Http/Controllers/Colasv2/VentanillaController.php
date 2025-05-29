@@ -117,30 +117,62 @@ class VentanillaController extends Controller
         }
     }
 
-    public function atender_ticket(Request $request){
+    public function siguiente_ticket(Request $request){
         try {
-            DB::beginTransaction();
-            //$ticket_id = $request->ticket_id;
-
             $user = Auth::user();
             $office_id = $user->office_id;
             $ventanilla= $user->ventanilla;
 
             $ticket = Ticket::whereDate('created_at',date('Y-m-d'))
-                ->where('estado',1)
+                ->where('estado',0)
                 ->whereOfficeId($office_id)
-                ->where('ventanilla',$ventanilla)
+                ->orderBy('ticket','asc')
                 ->select('id', 'code', 'type', 'created_at as arrivalTime', 'estado as status')
                 ->first();
+
+            if(!$ticket){
+                return response()->json([
+                    'ticket' => null,
+                    'message' => 'No hay tickets disponibles'
+                ], 400);
+            }
+
+            DB::beginTransaction();
+
+            $ticket->estado = 1;
+            $ticket->ventanilla = $user->ventanilla;
+            $ticket->save();
+
+            DB::commit();
+
+            return response()->json([
+                'ticket' => $ticket,
+                'message' => 'Ticket llamado correctamente'
+            ]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json([
+                'ticket' => null,
+                'message' => 'Error al obtener el siguiente ticket. Intente nuevamente.'
+            ], 400);
+        }
+    }
+
+    public function atender_ticket(Request $request){
+        try {
+            DB::beginTransaction();
+            $ticket_id = $request->ticket_id;
+
+            $ticket = Ticket::find($ticket_id);
 
             $ticket->estado = 2;
             $ticket->save();
 
             DB::commit();
-            return response()->json($ticket);
+            return response()->json(['ticket' => $ticket, 'message' => 'Ticket atendido correctamente']);
         } catch (\Throwable $th) {
             DB::rollBack();
-            return response()->json($th);
+            return response()->json(['ticket' => null, 'message' => 'Error al atender el ticket. Intente nuevamente.']);
         }
     }
 
@@ -150,14 +182,20 @@ class VentanillaController extends Controller
             $ticket_id = $request->ticket_id;
 
             $ticket = Ticket::find($ticket_id);
-            $ticket->estado = 2;
+            $ticket->estado = 3;
             $ticket->save();
 
             DB::commit();
-            return response()->json($ticket);
+            return response()->json([
+                'ticket' => $ticket,
+                'message' => 'Ticket terminado correctamente'
+            ]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            return response()->json($th);
+            return response()->json([
+                'ticket' => null,
+                'message' => 'Error al terminar el ticket. Intente nuevamente.'
+            ]);
         }
     }
 

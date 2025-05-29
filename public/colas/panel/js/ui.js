@@ -20,6 +20,7 @@ const elements = {
     
     // Action buttons
     attendBtn: document.getElementById('attendBtn'),
+    callServiceBtn: document.getElementById('callServiceBtn'),
     callBtn: document.getElementById('callBtn'),
     endServiceBtn: document.getElementById('endServiceBtn'),
     skipBtn: document.getElementById('skipBtn'),
@@ -49,6 +50,7 @@ const elements = {
   // Global variables
   let waitTimeInterval;
   let isPaused = false;
+  let ticketId;
   
   /**
    * Updates the current customer display
@@ -158,6 +160,12 @@ const elements = {
       // Add event listener
       const callNowBtn = row.querySelector('.call-now-btn');
       callNowBtn.addEventListener('click', () => {
+
+        if(ticketId){
+            alert('Ya hay un ticket en atención');
+            return;
+        }
+
         callSpecificCustomer(customer.id);
         elements.queueModal.hide();
       });
@@ -214,9 +222,15 @@ const elements = {
       })
       .then(data => {
         data.arrivalTime = data.created_at;
-        elements.servingLabel.textContent = 'Atendiendo a';
+        elements.servingLabel.textContent = 'Llamando a';
         updateCurrentCustomerDisplay(data);
         updateQueueStatus();
+
+        ticketId = customerId;
+
+        elements.callServiceBtn.disabled = true;
+        elements.attendBtn.disabled = false;
+        elements.endServiceBtn.disabled = true;
       })
       .catch(error => {
         console.error('Error al llamar al cliente:', error);
@@ -253,7 +267,7 @@ const elements = {
           'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         },
         body: JSON.stringify({
-          //ticket_id: 'P18'
+          ticket_id: ticketId
         })
       })
       .then((response) => {
@@ -264,8 +278,14 @@ const elements = {
       })
       .then(data => {
         elements.servingLabel.textContent = 'Atendiendo a';
-        updateCurrentCustomerDisplay(data);
+        data.ticket.arrivalTime = data.ticket.created_at;
+        updateCurrentCustomerDisplay(data.ticket);
         updateQueueStatus();
+
+        elements.callServiceBtn.disabled = true;
+        elements.attendBtn.disabled = true;
+        elements.endServiceBtn.disabled = false;
+
       })
       .catch(error => {
         console.error('Error al llamar al cliente:', error);
@@ -286,9 +306,37 @@ const elements = {
     });
     
     elements.endServiceBtn.addEventListener('click', () => {
-      const nextCustomer = window.queueDataService.finishCurrentService();
-      updateCurrentCustomerDisplay(nextCustomer);
-      updateQueueStatus();
+      //const nextCustomer = window.queueDataService.finishCurrentService();
+      fetch('/colasv2/terminar-ticket', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({
+          ticket_id: ticketId
+        })
+      })
+      .then((response) => {
+        if (response.ok) {
+            return response.json();
+        }
+        return Promise.reject(response);
+      })
+      .then(data => {
+        console.log(data.message);
+        ticketId = null;
+        updateCurrentCustomerDisplay(null);
+        updateQueueStatus();
+
+        elements.servingLabel.textContent = '';
+        elements.callServiceBtn.disabled = false;
+        elements.attendBtn.disabled = true;
+        elements.endServiceBtn.disabled = true;
+      })
+      .catch(error => {
+        alert(error.message);
+      });
     });
     
     elements.skipBtn.addEventListener('click', () => {
@@ -297,18 +345,18 @@ const elements = {
       updateQueueStatus();
     });
     
-    elements.callSkippedBtn.addEventListener('click', () => {
-      const skippedCustomers = window.queueDataService.getSkippedCustomers();
+    // elements.callSkippedBtn.addEventListener('click', () => {
+    //   const skippedCustomers = window.queueDataService.getSkippedCustomers();
       
-      if (skippedCustomers.length > 0) {
-        // For simplicity, just call the first skipped customer
-        const calledCustomer = window.queueDataService.callSkippedCustomer(skippedCustomers[0].id);
-        updateCurrentCustomerDisplay(calledCustomer);
-        updateQueueStatus();
-      } else {
-        alert('No hay clientes saltados para llamar');
-      }
-    });
+    //   if (skippedCustomers.length > 0) {
+    //     // For simplicity, just call the first skipped customer
+    //     const calledCustomer = window.queueDataService.callSkippedCustomer(skippedCustomers[0].id);
+    //     updateCurrentCustomerDisplay(calledCustomer);
+    //     updateQueueStatus();
+    //   } else {
+    //     alert('No hay clientes saltados para llamar');
+    //   }
+    // });
     
     elements.transferBtn.addEventListener('click', () => {
       elements.transferModal.show();
