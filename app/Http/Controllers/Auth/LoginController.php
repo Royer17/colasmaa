@@ -52,7 +52,20 @@ class LoginController extends Controller
                 return redirect('/admin/dashboard');
             }
 
-            return redirect()->intended('/');
+            if (Auth::user()->role_id == 2) {
+                return redirect('/colasv2/manejo-de-tickets');
+            }
+
+            if (Auth::user()->role_id == 3) {
+                return redirect('/colasv2');
+            }
+
+            if (Auth::user()->role_id == 4) {
+                return redirect('/colasv2/monitor');
+            }
+
+            Auth::logout();
+            return redirect('/panel');
 
         } else {
             return redirect()->intended('/panel')->with('data', ['Nombre de usuario y/o Contraseña Incorrectas']);

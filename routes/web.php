@@ -16,32 +16,31 @@
 
 //SISTEMA COLAS-------
 
-Route::group(["namespace" => "Colas", "middleware" => ["auth.personalized"]], function () {
-    // Route::get('/', 'TicketController@index')->name('pages.home');
-    Route::get('/', 'TicketController@index');
-    Route::post('/', 'TicketController@create');
+// Route::group(["namespace" => "Colas", "middleware" => ["auth.personalized"]], function () {
+//     Route::get('/', 'TicketController@index');
+//     Route::post('/', 'TicketController@create');
     
-    // ventanilla
-    Route::get('ventanilla', 'VentanillaController@index');
-    Route::get('enespera', 'VentanillaController@enespera');
-    Route::get('enatencion', 'VentanillaController@enatencion');
-    Route::get('encierre', 'VentanillaController@encierre');
+//     // ventanilla
+//     Route::get('ventanilla', 'VentanillaController@index');
+//     Route::get('enespera', 'VentanillaController@enespera');
+//     Route::get('enatencion', 'VentanillaController@enatencion');
+//     Route::get('encierre', 'VentanillaController@encierre');
     
-    // monitor
-    Route::get('monitor', 'MonitorController@index');
-    Route::get('monitorv2', 'MonitorController@indexv2');
+//     // monitor
+//     Route::get('monitor', 'MonitorController@index');
+//     Route::get('monitorv2', 'MonitorController@indexv2');
 
-    Route::get('monitorcarga', 'MonitorController@carga');
-    Route::get('monitorcargav2', 'MonitorController@cargav2');
+//     Route::get('monitorcarga', 'MonitorController@carga');
+//     Route::get('monitorcargav2', 'MonitorController@cargav2');
 
-    Route::get('verificar', 'MonitorController@verificar');
+//     Route::get('verificar', 'MonitorController@verificar');
     
-    //Prueba
-    Route::get('prueba', ['as' => 'prueba.index', 'uses' => 'PruebaController@index']);
+//     //Prueba
+//     Route::get('prueba', ['as' => 'prueba.index', 'uses' => 'PruebaController@index']);
 
-});
+// });
 
-Route::group(["namespace" => "Colasv2", "prefix" => "colasv2", "middleware" => ["auth.personalized"]], function () {
+Route::group(["namespace" => "Colasv2", "prefix" => "colasv2", "middleware" => ["auth.personalized", "check.worker.role"]], function () {
     // Route::get('/', 'TicketController@index')->name('pages.home');
     //Route::get('/', 'TicketController@index');
     //Route::post('/', 'TicketController@create');
@@ -49,8 +48,7 @@ Route::group(["namespace" => "Colasv2", "prefix" => "colasv2", "middleware" => [
     // ventanilla
     Route::get('manejo-de-tickets', 'VentanillaController@index');
 
-
-    Route::get('ventanilla', 'VentanillaController@index');
+    //Route::get('ventanilla', 'VentanillaController@index');
     Route::get('llamar', 'VentanillaController@llamar');
     Route::get('current-ticket', 'VentanillaController@current_ticket');
     Route::post('llamar-ticket', 'VentanillaController@llamar_ticket');
@@ -73,18 +71,15 @@ Route::group(["namespace" => "Colasv2", "prefix" => "colasv2", "middleware" => [
 
 });
 
-Route::group(["namespace" => "Colasv2", "prefix" => "colasv2"], function () {
-    Route::get('monitor', 'MonitorController@index');
-
-
+Route::group(["namespace" => "Colasv2", "prefix" => "colasv2", "middleware" => ["auth.personalized", "check.ticket.role"]], function () {
     Route::get('/', 'TicketController@index');
     Route::post('/', 'TicketController@create');
-
 });
 
-
-
-
+Route::group(["namespace" => "Colasv2", "prefix" => "colasv2", "middleware" => ["auth.personalized", "check.monitor.role"]], function () {
+    Route::get('monitor', 'MonitorController@index');
+    
+});
 
 //-------------------
 

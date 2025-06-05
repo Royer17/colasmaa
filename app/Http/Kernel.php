@@ -64,5 +64,8 @@ class Kernel extends HttpKernel
         'check_asesoria' => \App\Http\Middleware\CheckAsesoria::class,
         'is.superadmin' => \App\Http\Middleware\IsSuperadmin::class,
         'check.role' => \App\Http\Middleware\CheckRole::class,
+        'check.ticket.role' => \App\Http\Middleware\CheckTicketRole::class,
+        'check.monitor.role' => \App\Http\Middleware\CheckMonitorRole::class,
+        'check.worker.role' => \App\Http\Middleware\CheckWorkerRole::class,
     ];
 }
