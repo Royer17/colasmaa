@@ -17,7 +17,7 @@
     }
 
     .video-section {
-      height: 50vh;
+      height: 74vh;
       background: #000;
       position: relative;
     }
@@ -89,11 +89,11 @@
 <body>
   <div class="monitor-container">
     <div class="video-section">
-    @if($videos)
-        @foreach($videos as $key => $video)
-            <input type="hidden" name="" id="video-to-play{{ $key + 1 }}" class="videos-to-play" value="{{ $video->foto }}">
-        @endforeach
-    @endif
+      @if($videos)
+          @foreach($videos as $key => $video)
+              <input type="hidden" name="" id="video-to-play{{ $key + 1 }}" class="videos-to-play" value="{{ $video->foto }}">
+          @endforeach
+      @endif
 
       <div class="date-time" id="dateTime"></div>
       <video class="video-container" muted>
@@ -111,16 +111,39 @@
 
   <script>
     // Sample tickets data
-    const tickets = [
-      { number: 'P18', desk: 'Módulo 04', active: true },
-      { number: 'R45', desk: 'Módulo 02', active: false },
-      { number: 'V03', desk: 'Módulo 01', active: false },
-      { number: 'C31', desk: 'Módulo 03', active: false },
-      { number: 'P20', desk: 'Módulo 05', active: false },
-      { number: 'R46', desk: 'Módulo 06', active: false },
-      { number: 'V04', desk: 'Módulo 07', active: false },
-      { number: 'C32', desk: 'Módulo 08', active: false }
-    ];
+
+    var tickets = [];
+
+    setInterval(() => {
+
+      fetch('/colasv2/calling-tickets')
+        .then(response => response.json())
+        .then(data => {
+          tickets = [];
+          data.active_tickets.map(ticket => {
+            tickets.push({
+              number: ticket.code,
+              desk: "Ventanilla " + ticket.ventanilla,
+              active: ticket.estado == 1
+            });
+          });
+        })
+        .then(() => {
+          updateTickets();
+        })
+        .catch(error => {
+          console.error(error);
+        });
+
+    },2500);
+
+
+    // let tickets = [
+    //   { number: 'P18', desk: 'Módulo 04', active: true },
+    //   { number: 'R45', desk: 'Módulo 02', active: true },
+    //   { number: 'V03', desk: 'Módulo 01', active: false },
+    //   { number: 'C31', desk: 'Módulo 03', active: false }
+    // ];
 
     function updateTickets() {
       const container = document.getElementById('ticketsContainer');
@@ -155,27 +178,27 @@
     }
 
     // Initial updates
-    updateTickets();
+    //updateTickets();
     updateDateTime();
 
     // Update date/time every second
     setInterval(updateDateTime, 1000);
 
     // Simulate new tickets every 5 seconds
-    setInterval(() => {
-      // Move active status to next ticket
-      const currentActiveIndex = tickets.findIndex(t => t.active);
-      tickets[currentActiveIndex].active = false;
-      const nextActiveIndex = (currentActiveIndex + 1) % tickets.length;
-      tickets[nextActiveIndex].active = true;
+    // setInterval(() => {
+    //   // Move active status to next ticket
+    //   const currentActiveIndex = tickets.findIndex(t => t.active);
+    //   tickets[currentActiveIndex].active = false;
+    //   const nextActiveIndex = (currentActiveIndex + 1) % tickets.length;
+    //   tickets[nextActiveIndex].active = true;
 
-      // Play sound
-      document.getElementById('callSound').play().catch(error => {
-        console.log('Audio play prevented by browser policy. User interaction needed first.');
-      });
+    //   // Play sound
+    //   document.getElementById('callSound').play().catch(error => {
+    //     console.log('Audio play prevented by browser policy. User interaction needed first.');
+    //   });
 
-      updateTickets();
-    }, 5000);
+    //   updateTickets();
+    // }, 5000);
 
     //video functions
     var count=0;

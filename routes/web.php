@@ -40,6 +40,10 @@
 
 // });
 
+Route::get('/', function () {
+    return redirect('/colasv2');
+});
+
 Route::group(["namespace" => "Colasv2", "prefix" => "colasv2", "middleware" => ["auth.personalized", "check.worker.role"]], function () {
     // Route::get('/', 'TicketController@index')->name('pages.home');
     //Route::get('/', 'TicketController@index');
@@ -78,6 +82,7 @@ Route::group(["namespace" => "Colasv2", "prefix" => "colasv2", "middleware" => [
 
 Route::group(["namespace" => "Colasv2", "prefix" => "colasv2", "middleware" => ["auth.personalized", "check.monitor.role"]], function () {
     Route::get('monitor', 'MonitorController@index');
+    Route::get('calling-tickets', 'MonitorController@callingTickets');
     
 });
 

@@ -19,6 +19,18 @@ class MonitorController extends Controller
         return view('colasv2.landing.display', compact('videos'));
     }
 
+    public function callingTickets(Request $request){
+        $ticket = Ticket::select('ticket','estado','ventanilla', 'code')
+            ->whereDate('created_at',date('Y-m-d'))
+            ->whereIn('estado',[1,2])
+            ->orderBy('ticket','asc')
+            ->limit(4)
+            ->get()
+            ->toArray();
+
+        return response()->json(["active_tickets" => $ticket], 200);
+    }
+
     public function indexv2(Request $request){
 
         $videos = Youtube::where('published', 1)
