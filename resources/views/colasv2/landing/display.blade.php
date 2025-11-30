@@ -114,6 +114,12 @@
 
     var tickets = [];
 
+    var colorStatus = {
+      0: '#f1c40f',
+      1: '#e74c3c',
+      2: '#2ecc71'
+    };
+
     setInterval(() => {
 
       fetch('/colasv2/calling-tickets')
@@ -123,8 +129,9 @@
           data.active_tickets.map(ticket => {
             tickets.push({
               number: ticket.code,
-              desk: "Ventanilla " + ticket.ventanilla,
-              active: ticket.estado == 1
+              desk: ticket.estado != 0 ? "Ventanilla " + ticket.ventanilla : "",
+              active: ticket.estado == 1,
+              color: colorStatus[ticket.estado]
             });
           });
         })
@@ -152,6 +159,7 @@
       tickets.forEach(ticket => {
         const card = document.createElement('div');
         card.className = `ticket-card ${ticket.active ? 'active' : ''}`;
+        card.style.backgroundColor = ticket.color;
         
         card.innerHTML = `
           <div class="ticket-number">${ticket.number}</div>

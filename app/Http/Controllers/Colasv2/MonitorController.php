@@ -22,9 +22,10 @@ class MonitorController extends Controller
     public function callingTickets(Request $request){
         $ticket = Ticket::select('ticket','estado','ventanilla', 'code')
             ->whereDate('created_at',date('Y-m-d'))
-            ->whereIn('estado',[1,2])
-            ->orderBy('ticket','asc')
-            ->limit(4)
+            ->whereIn('estado',[0, 1, 2])
+            //->orderBy('ticket','asc')
+            ->orderBy('estado','desc')
+            ->limit(8)
             ->get()
             ->toArray();
 
