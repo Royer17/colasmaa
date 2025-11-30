@@ -12,12 +12,12 @@
       height: 100vh;
       display: flex;
       flex-direction: column;
-      background: linear-gradient(to bottom, #1a3a5f, #0066cc);
+      background: linear-gradient(to bottom, #46ad2e, #8bbe20);
       overflow: hidden;
     }
 
     .video-section {
-      height: 74vh;
+      height: 60vh;
       background: #000;
       position: relative;
     }
@@ -41,14 +41,14 @@
     .ticket-card {
       background: #2c3e50;
       border-radius: 0.5rem;
-      padding: 1.5rem;
+      padding: .7rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
       transition: all 0.3s ease;
-      aspect-ratio: 2/1;
+      /* aspect-ratio: 2/1; */
     }
 
     .ticket-card.active {
@@ -115,8 +115,11 @@
     var tickets = [];
 
     var colorStatus = {
+      //en cola
       0: '#f1c40f',
+      //llamando
       1: '#e74c3c',
+      //atendiendo
       2: '#2ecc71'
     };
 
