@@ -85,17 +85,17 @@ class YoutubeController extends Controller
         $video = new Youtube();
         $video->fill($data);
 
-        $video->foto = "";
-        if ($request->hasFile('foto')) {
-            $file1 = $request->file('foto');
+        // $video->foto = "";
+        // if ($request->hasFile('foto')) {
+        //     $file1 = $request->file('foto');
 
-            //Storage::disk('google')->put($file1->getClientOriginalName(), fopen($file1, 'r+'));
-            //$url = Storage::disk('google')->url($file1->getClientOriginalName());
-            //$video->foto = $url;
-            $filename = time().str_slug($file1->getClientOriginalExtension());
-            $file1->move(public_path(). "/files/videos", $filename);
-            $video->foto = "/files/videos/".$filename;
-        }
+        //     //Storage::disk('google')->put($file1->getClientOriginalName(), fopen($file1, 'r+'));
+        //     //$url = Storage::disk('google')->url($file1->getClientOriginalName());
+        //     //$video->foto = $url;
+        //     $filename = time().str_slug($file1->getClientOriginalExtension());
+        //     $file1->move(public_path(). "/files/videos", $filename);
+        //     $video->foto = "/files/videos/".$filename;
+        // }
         
         $video->save();
 
@@ -120,30 +120,30 @@ class YoutubeController extends Controller
         
     $video->fill($data);
 
-    if ($request->hasFile('foto')) {
-        $file1 = $request->file('foto');
+    // if ($request->hasFile('foto')) {
+    //     $file1 = $request->file('foto');
 
-        if($video->foto)
-        {
-            // $val = explode('id=', $video->foto); 
-            // $val = $val[1];
-            // $val = explode('&', $val); 
-            // $val = $val[0];
-            // Storage::disk('google')->delete($val);
-            if (file_exists($video->foto)) {
-                unlink($video->foto);
-            }
+    //     if($video->foto)
+    //     {
+    //         // $val = explode('id=', $video->foto); 
+    //         // $val = $val[1];
+    //         // $val = explode('&', $val); 
+    //         // $val = $val[0];
+    //         // Storage::disk('google')->delete($val);
+    //         if (file_exists($video->foto)) {
+    //             unlink($video->foto);
+    //         }
 
-        }
+    //     }
 
-        // Storage::disk('google')->put($file1->getClientOriginalName(), fopen($file1, 'r+'));
-        // $url = Storage::disk('google')->url($file1->getClientOriginalName());
-        // $video->foto = $url;
-        $filename = time().str_slug($file1->getClientOriginalExtension());
-        $file1->move(public_path(). "/files/videos", $filename);
-        $video->foto = "/files/videos/".$filename;
+    //     // Storage::disk('google')->put($file1->getClientOriginalName(), fopen($file1, 'r+'));
+    //     // $url = Storage::disk('google')->url($file1->getClientOriginalName());
+    //     // $video->foto = $url;
+    //     $filename = time().str_slug($file1->getClientOriginalExtension());
+    //     $file1->move(public_path(). "/files/videos", $filename);
+    //     $video->foto = "/files/videos/".$filename;
 
-    }
+    // }
     
     $video->save();
 

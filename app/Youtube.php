@@ -13,5 +13,5 @@ class Youtube extends Model
 
     protected $primaryKey = 'id';
     
-    protected $fillable = ['video', 'titulo', 'published'];
+    protected $fillable = ['video', 'titulo', 'published', 'foto'];
 }

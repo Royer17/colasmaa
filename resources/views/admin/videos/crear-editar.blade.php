@@ -48,7 +48,7 @@
 
                                     <div class="form-group">
                                         <label>Video</label>
-                                        <input type="text" name="foto" value="" style="margin-bottom: 10px;" class="form-control">
+                                        <input type="text" name="foto" value="" placeholder="Enlace" style="margin-bottom: 10px;" class="form-control">
                                     </div>
                                     
                               {{ Form::close() }}
