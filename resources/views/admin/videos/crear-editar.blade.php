@@ -48,8 +48,7 @@
 
                                     <div class="form-group">
                                         <label>Video</label>
-                                        <input type="file" name="foto" value="" style="margin-bottom: 10px;" class="form-control">
-                                        <img src="" width="200px">
+                                        <input type="text" name="foto" value="" style="margin-bottom: 10px;" class="form-control">
                                     </div>
                                     
                               {{ Form::close() }}
