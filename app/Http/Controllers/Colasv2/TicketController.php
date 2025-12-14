@@ -12,6 +12,7 @@ class TicketController extends Controller
     public function index(Request $request){
         //areas
         $offices = CityCouncil::wherePublished(1)
+            ->orderBy('position', 'asc')
             ->get(['id', 'name', 'icon']);
 
         return view('colasv2.landing.ticketing', compact('offices'));
