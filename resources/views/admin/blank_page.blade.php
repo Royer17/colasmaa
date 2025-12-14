@@ -193,7 +193,7 @@
               contentType: false,
               processData: false,
               success: function(e){
-                Swal.fire(`Operación Exitosa`, `Se ha actualizado correctamente`, `success`);
+                //Swal.fire(`Operación Exitosa`, `Se ha actualizado correctamente`, `success`);
                 unlockWindow();
                 location.reload();
               },
