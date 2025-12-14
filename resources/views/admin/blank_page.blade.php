@@ -195,6 +195,7 @@
               success: function(e){
                 Swal.fire(`Operación Exitosa`, `Se ha actualizado correctamente`, `success`);
                 unlockWindow();
+                location.reload();
               },
               error: function(jqXHR, textStatus, errorThrown)
               {
