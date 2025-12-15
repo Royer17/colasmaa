@@ -8,13 +8,17 @@ use App\Ticket;
 use App\CityCouncil;
 use Auth;
 use App\Commission;
+use App\User;
 use DB;
 
 class VentanillaController extends Controller
 {   
     public function index(Request $request){
             
-        $user = Auth::user();
+        $user_id = Auth::user()->id;
+
+        $user = User::with('ventanilla_relation')->find($user_id);
+
         $user_name = $user->name;
 
         if (!$user->office_id) {
@@ -30,12 +34,13 @@ class VentanillaController extends Controller
 
         $office = CityCouncil::with('commission')->find($office_id);
 
-        $ventanilla_name = $office->commission->title;
+        $ventanilla_name = $user->ventanilla_relation->title;
 
         $ticket = Ticket::whereDate('created_at',date('Y-m-d'))
             ->where('estado',0)
             ->whereOfficeId($office_id)
             ->get();
+
         $tticket = $ticket->count();
 
         $office_name = $office->name;
