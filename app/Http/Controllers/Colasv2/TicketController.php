@@ -67,7 +67,7 @@ class TicketController extends Controller
         //4 = NO SE PRESENTO
         $ticket->save();
 
-        //$this->imprimirTicket($office->name, $ticket->code);
+        $this->imprimirTicket($office->name, $ticket->code);
 
         return response()->json([
             'ticketNumber' => $ticket->code,
@@ -81,7 +81,7 @@ class TicketController extends Controller
 {
     try {
         // Para Windows (conectada por USB y compartida como "POS58")
-        $connector = new WindowsPrintConnector("smb://computadora/POS58");
+        $connector = new WindowsPrintConnector("smb://" . env('PRINTER_HOST') . "/" . env('PRINTER_NAME'));
         // O si está directamente en el puerto LPT (muy raro hoy en día)
         // $connector = new WindowsPrintConnector("LPT1");
 
