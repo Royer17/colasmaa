@@ -53,7 +53,7 @@
                                         <img src="" alt="" style="height: 200px;">
                                     </div> -->
 
-                                    <div class="form-group">
+                                    <div class="form-group d-none">
                                         {{ Form::label('title', 'Ventanilla') }}
                                         <select class="form-control" name="commission_id">
                                             <option value="">Seleccione</option>
