@@ -84,7 +84,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group d-none">
                                         {{ Form::label('content', 'Ventanilla') }}
 
                                         <select name="ventanilla" class="form-control">
