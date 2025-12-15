@@ -100,6 +100,9 @@
 </head>
 <body>
   <div class="monitor-container">
+    <div class="tickets-section" id="ticketsContainer">
+      <!-- Tickets will be populated by JavaScript -->
+    </div>
     <div class="video-section">
       @if($videos)
           @foreach($videos as $key => $video)
@@ -111,11 +114,7 @@
       <video class="video-container" muted>
         <source src="" id="mp4Source" type="video/mp4">
       </video>
-    </div>
-    
-    <div class="tickets-section" id="ticketsContainer">
-      <!-- Tickets will be populated by JavaScript -->
-    </div>
+    </div>  
   </div>
 
   <!-- Sound for notifications -->
