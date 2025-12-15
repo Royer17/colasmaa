@@ -194,7 +194,7 @@
           <div class="ticket-number" id="ticketNumber"></div>
           <div class="ticket-info">
             <p class="mb-1">Por favor, espere a ser llamado</p>
-            <p class="mb-0" id="estimatedTime"></p>
+            <p class="mb-0" id="estimatedTime">Muchas gracias por sacar su ticket</p>
           </div>
         </div>
       </div>
@@ -226,8 +226,8 @@
         .then(response => response.json())
         .then(data => {
             document.getElementById('ticketNumber').textContent = data.ticketNumber;
-            document.getElementById('estimatedTime').textContent = 
-                `Tiempo estimado de espera: ${data.estimatedTime} minutos`;
+            // document.getElementById('estimatedTime').textContent = 
+            //     `Tiempo estimado de espera: ${data.estimatedTime} minutos`;
             const ticketModal = new bootstrap.Modal(document.getElementById('ticketModal'));
             ticketModal.show();
             document.getElementById('printSound').play().catch(error => {

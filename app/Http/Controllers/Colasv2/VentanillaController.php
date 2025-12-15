@@ -75,11 +75,12 @@ class VentanillaController extends Controller
     }
 
     public function current_ticket(Request $request){
-        $user = Auth::user();
-        $office_id = $user->office_id;
-        $office = CityCouncil::with('commission')->find($office_id);
+        $user_id = Auth::user()->id;
+        $user = User::with('ventanilla_relation')->find($user_id);
 
-        $ventanilla= $office->commission->title;
+        $office_id = $user->office_id;
+
+        $ventanilla= $user->ventanilla_relation->title;
 
         //ticket llamado
         $ticket = Ticket::whereDate('created_at',date('Y-m-d'))
@@ -94,6 +95,7 @@ class VentanillaController extends Controller
             $ticket = Ticket::whereDate('created_at',date('Y-m-d'))
                 ->where('estado',2)
                 ->whereOfficeId($office_id)
+                ->where('ventanilla',$ventanilla)
                 ->select('id', 'code', 'type', 'created_at as arrivalTime', 'estado as status')
                 ->first();
         }
@@ -110,11 +112,12 @@ class VentanillaController extends Controller
             DB::beginTransaction();
             $ticket_id = $request->ticket_id;
 
-            $user = Auth::user();
+            $user_id = Auth::user()->id;
+            $user = User::with('ventanilla_relation')->find($user_id);
 
             $ticket = Ticket::find($ticket_id);
             $ticket->estado = 1;
-            $ticket->ventanilla = $user->ventanilla;
+            $ticket->ventanilla = $user->ventanilla_relation->title;
             $ticket->save();
 
             DB::commit();
@@ -127,11 +130,10 @@ class VentanillaController extends Controller
 
     public function siguiente_ticket(Request $request){
         try {
-            $user = Auth::user();
-            $office_id = $user->office_id;
+            $user_id = Auth::user()->id;
+            $user = User::with('ventanilla_relation')->find($user_id);
 
-            $office = CityCouncil::with('commission')
-                ->find($office_id);
+            $office_id = $user->office_id;
 
             $ticket = Ticket::whereDate('created_at',date('Y-m-d'))
                 ->where('estado',0)
@@ -150,7 +152,7 @@ class VentanillaController extends Controller
             DB::beginTransaction();
 
             $ticket->estado = 1;
-            $ticket->ventanilla = $office->commission->title;
+            $ticket->ventanilla = $user->ventanilla_relation->title;
             $ticket->save();
 
             DB::commit();
