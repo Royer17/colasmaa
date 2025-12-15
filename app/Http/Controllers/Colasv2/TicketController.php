@@ -67,7 +67,7 @@ class TicketController extends Controller
         //4 = NO SE PRESENTO
         $ticket->save();
 
-        $this->imprimirTicket($office->name, $ticket->code);
+        //$this->imprimirTicket($office->name, $ticket->code);
 
         return response()->json([
             'ticketNumber' => $ticket->code,

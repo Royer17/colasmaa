@@ -26,9 +26,11 @@ class VentanillaController extends Controller
         }
 
         $office_id = $user->office_id;
-        $ventanilla= $user->ventanilla;
+        $ventanilla = $user->ventanilla;
 
-        $ventanilla_name = Commission::find($ventanilla)->title;
+        $office = CityCouncil::with('commission')->find($office_id);
+
+        $ventanilla_name = $office->commission->title;
 
         $ticket = Ticket::whereDate('created_at',date('Y-m-d'))
             ->where('estado',0)
@@ -36,10 +38,9 @@ class VentanillaController extends Controller
             ->get();
         $tticket = $ticket->count();
 
-        $office = CityCouncil::find($office_id);
         $office_name = $office->name;
 
-        return view('colasv2.panel.index', compact('tticket','ventanilla', 'office_name', 'ventanilla_name', 'user_name'));
+        return view('colasv2.panel.index', compact('tticket', 'office_name', 'ventanilla_name', 'user_name'));
 
         //$equiponombre = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         
@@ -71,7 +72,9 @@ class VentanillaController extends Controller
     public function current_ticket(Request $request){
         $user = Auth::user();
         $office_id = $user->office_id;
-        $ventanilla= $user->ventanilla;
+        $office = CityCouncil::with('commission')->find($office_id);
+
+        $ventanilla= $office->commission->title;
 
         //ticket llamado
         $ticket = Ticket::whereDate('created_at',date('Y-m-d'))
@@ -121,7 +124,9 @@ class VentanillaController extends Controller
         try {
             $user = Auth::user();
             $office_id = $user->office_id;
-            $ventanilla= $user->ventanilla;
+
+            $office = CityCouncil::with('commission')
+                ->find($office_id);
 
             $ticket = Ticket::whereDate('created_at',date('Y-m-d'))
                 ->where('estado',0)
@@ -140,7 +145,7 @@ class VentanillaController extends Controller
             DB::beginTransaction();
 
             $ticket->estado = 1;
-            $ticket->ventanilla = $user->ventanilla;
+            $ticket->ventanilla = $office->commission->title;
             $ticket->save();
 
             DB::commit();
