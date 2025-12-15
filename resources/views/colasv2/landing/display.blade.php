@@ -8,11 +8,23 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
   <!-- <link rel="stylesheet" href="/colas/panel/css/styles.css"> -->
   <style>
+
+    :root {
+      --primary-blue: #0066cc;
+      --secondary-blue: #003366;
+      --turquoise: #40E0D0;
+      --light-turquoise: #7FFFD4;
+    }
+
+    .text-secondary-blue {
+      color: var(--secondary-blue);
+    }
+
     .monitor-container {
       height: 100vh;
       display: flex;
       flex-direction: column;
-      background: linear-gradient(to bottom, #46ad2e, #8bbe20);
+      background: linear-gradient(to bottom, var(--primary-blue), var(--turquoise));
       overflow: hidden;
     }
 
@@ -39,7 +51,7 @@
     }
 
     .ticket-card {
-      background: #2c3e50;
+      /* background: #2c3e50; */
       border-radius: 0.5rem;
       padding: .7rem;
       display: flex;
@@ -59,7 +71,7 @@
     .ticket-number {
       font-size: 3rem;
       font-weight: bold;
-      color: white;
+      color: var(--secondary-blue);
       margin-bottom: 0.5rem;
     }
 
@@ -116,9 +128,9 @@
 
     var colorStatus = {
       //en cola
-      0: '#f1c40f',
+      0: '#FFFFFF',
       //llamando
-      1: '#e74c3c',
+      1: '#f1c40f',
       //atendiendo
       2: '#2ecc71'
     };
