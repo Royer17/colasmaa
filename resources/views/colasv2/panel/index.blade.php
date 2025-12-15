@@ -14,14 +14,15 @@
     <!-- Header Bar -->
     <header class="header-bar">
       <div class="d-flex justify-content-between align-items-center">
-        <button class="btn pause-btn" id="pauseBtn">
+        <button class="btn pause-btn d-none" id="pauseBtn">
           <i class="bi bi-pause-fill"></i> Pausar
         </button>
+        <span></span>
         <h1 class="system-title">{{ $office_name }} - Ventanilla {{ $ventanilla_name }}</h1>
         <div class="agent-info">
-          <span class="ticket-number">04</span>
+          <span class="ticket-number">Usuario</span>
           <span class="agent-name text-capitalize">{{ strtolower($user_name) }}</span>
-          <button class="btn-close text-white" aria-label="Close"></button>
+          <a class="btn-close text-white" href="/logout"></a>
         </div>
       </div>
     </header>
@@ -99,11 +100,11 @@
           <i class="bi bi-people-fill"></i> Ver en fila <span class="queue-count">0</span>
         </button>
         
-        <button class="footer-btn view-reservations-btn" id="viewReservationsBtn">
+        <button class="footer-btn view-reservations-btn d-none" id="viewReservationsBtn">
           <i class="bi bi-calendar-check"></i> Ver Reservas
         </button>
         
-        <button class="footer-btn chat-btn" id="chatBtn">
+        <button class="footer-btn chat-btn d-none" id="chatBtn">
           <i class="bi bi-chat-dots-fill"></i> Chat
         </button>
       </div>
