@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Ticket;
 use App\CityCouncil;
+use Mike42\Escpos\Printer;
+use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+use Mike42\Escpos\PrintConnectors\FilePrintConnector; // Alternativa para Linux/USB
 
 class TicketController extends Controller
 {
@@ -64,12 +67,48 @@ class TicketController extends Controller
         //4 = NO SE PRESENTO
         $ticket->save();
 
+        $this->imprimirTicket($office->name, $ticket->code);
+
         return response()->json([
             'ticketNumber' => $ticket->code,
             'estimatedTime' => '15',
             'message' => 'Ticket creado correctamente',
             'symbol' => 'success'
         ]);
-        //return view('colasv2.ticketeraimpresion',compact('ticket'));
     }
+
+    private function imprimirTicket($oficina, $numero)
+{
+    try {
+        // Para Windows (conectada por USB y compartida como "POS58")
+        $connector = new WindowsPrintConnector("smb://computadora/POS58");
+        // O si está directamente en el puerto LPT (muy raro hoy en día)
+        // $connector = new WindowsPrintConnector("LPT1");
+
+        // Para Linux/USB (requiere configuración adicional de permisos y rutas)
+        // $connector = new FilePrintConnector("/dev/usb/lp0"); 
+
+        $printer = new Printer($connector);
+
+        // Personaliza el contenido del ticket
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->setTextSize(2, 2); // Texto grande
+        $printer->text("$oficina\n");
+        $printer->setTextSize(1, 1); // Texto normal
+        $printer->text("Su numero es:\n");
+        $printer->setTextSize(4, 4); // Texto gigante para el numero
+        $printer->text($numero . "\n");
+        $printer->setTextSize(1, 1);
+        $printer->text("Por favor espere su turno.\n");
+        $printer->text(date('Y-m-d H:i:s') . "\n");
+        $printer->feed(4); // Alimentar 4 líneas
+        $printer->cut(); // Cortar el papel
+        $printer->close();
+
+    } catch (\Exception $e) {
+        \Log::error("Error al imprimir el ticket: " . $e->getMessage());
+        // Maneja la excepción si la impresora no está disponible
+    }
+}
+
 }

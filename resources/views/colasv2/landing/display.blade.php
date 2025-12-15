@@ -77,7 +77,7 @@
 
     .ticket-desk {
       font-size: 1.5rem;
-      color: rgba(255, 255, 255, 0.9);
+      color: var(--secondary-blue);
       font-weight: 500;
     }
 
