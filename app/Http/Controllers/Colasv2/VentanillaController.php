@@ -80,13 +80,13 @@ class VentanillaController extends Controller
 
         $office_id = $user->office_id;
 
-        $ventanilla= $user->ventanilla_relation->title;
+        $ventanilla_id= $user->ventanilla_relation->id;
 
         //ticket llamado
         $ticket = Ticket::whereDate('created_at',date('Y-m-d'))
             ->where('estado',1)
             ->whereOfficeId($office_id)
-            ->where('ventanilla',$ventanilla)
+            ->where('ventanilla_id',$ventanilla_id)
             ->select('id', 'code', 'type', 'created_at as arrivalTime', 'estado as status')
             ->first();
 
@@ -95,7 +95,7 @@ class VentanillaController extends Controller
             $ticket = Ticket::whereDate('created_at',date('Y-m-d'))
                 ->where('estado',2)
                 ->whereOfficeId($office_id)
-                ->where('ventanilla',$ventanilla)
+                ->where('ventanilla_id',$ventanilla_id)
                 ->select('id', 'code', 'type', 'created_at as arrivalTime', 'estado as status')
                 ->first();
         }
@@ -117,7 +117,7 @@ class VentanillaController extends Controller
 
             $ticket = Ticket::find($ticket_id);
             $ticket->estado = 1;
-            $ticket->ventanilla = $user->ventanilla_relation->title;
+            $ticket->ventanilla_id = $user->ventanilla_relation->id;
             $ticket->save();
 
             DB::commit();
@@ -152,7 +152,7 @@ class VentanillaController extends Controller
             DB::beginTransaction();
 
             $ticket->estado = 1;
-            $ticket->ventanilla = $user->ventanilla_relation->title;
+            $ticket->ventanilla_id = $user->ventanilla_relation->id;
             $ticket->save();
 
             DB::commit();
@@ -213,6 +213,7 @@ class VentanillaController extends Controller
 
     public function llamar(Request $request){
         
+        return "Not working";
         $user = Auth::user();
         $office_id = $user->office_id;
         $ventanilla= $user->ventanilla;

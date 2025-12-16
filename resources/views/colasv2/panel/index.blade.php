@@ -18,7 +18,7 @@
           <i class="bi bi-pause-fill"></i> Pausar
         </button>
         <span></span>
-        <h1 class="system-title">{{ $office_name }} - Ventanilla {{ $ventanilla_name }}</h1>
+        <h1 class="system-title">{{ $office_name }} - {{ $ventanilla_name }}</h1>
         <div class="agent-info">
           <span class="ticket-number">Usuario</span>
           <span class="agent-name text-capitalize">{{ strtolower($user_name) }}</span>

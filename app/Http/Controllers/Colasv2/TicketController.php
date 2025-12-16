@@ -59,7 +59,7 @@ class TicketController extends Controller
         $ticket->office_id = $office->id;
         $ticket->estado = 0;
         $ticket->type = "Regular";
-        $ticket->ventanilla = "";
+        $ticket->ventanilla_id = "";
         //0 = EN ESPERA
         //1 = LLAMANDO USUARIO
         //2 = EN ATENCION

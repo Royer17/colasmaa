@@ -143,7 +143,7 @@
           data.active_tickets.map(ticket => {
             tickets.push({
               number: ticket.code,
-              desk: ticket.estado != 0 ? "Ventanilla " + ticket.ventanilla : "",
+              desk: ticket.estado != 0 ? ticket.ventanilla.title : "",
               active: ticket.estado == 1,
               color: colorStatus[ticket.estado]
             });

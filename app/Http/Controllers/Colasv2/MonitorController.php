@@ -20,7 +20,8 @@ class MonitorController extends Controller
     }
 
     public function callingTickets(Request $request){
-        $ticket = Ticket::select('ticket','estado','ventanilla', 'code')
+        $ticket = Ticket::select('ticket','estado','ventanilla_id', 'code')
+            ->with('ventanilla')
             ->whereDate('created_at',date('Y-m-d'))
             ->whereIn('estado',[0, 1, 2])
             //->orderBy('ticket','asc')
