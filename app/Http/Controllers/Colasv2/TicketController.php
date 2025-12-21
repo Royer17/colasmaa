@@ -78,37 +78,39 @@ class TicketController extends Controller
     }
 
     private function imprimirTicket($oficina, $numero)
-{
-    try {
-        // Para Windows (conectada por USB y compartida como "POS58")
-        $connector = new WindowsPrintConnector("smb://" . env('PRINTER_HOST') . "/" . env('PRINTER_NAME'));
-        // O si está directamente en el puerto LPT (muy raro hoy en día)
-        // $connector = new WindowsPrintConnector("LPT1");
+    {
+        try {
+            // Para Windows (conectada por USB y compartida como "POS58")
+            $connector = new WindowsPrintConnector("smb://" . env('PRINTER_HOST') . "/" . env('PRINTER_NAME'));
+            // O si está directamente en el puerto LPT (muy raro hoy en día)
+            // $connector = new WindowsPrintConnector("LPT1");
 
-        // Para Linux/USB (requiere configuración adicional de permisos y rutas)
-        // $connector = new FilePrintConnector("/dev/usb/lp0"); 
+            // Para Linux/USB (requiere configuración adicional de permisos y rutas)
+            // $connector = new FilePrintConnector("/dev/usb/lp0"); 
 
-        $printer = new Printer($connector);
+            $printer = new Printer($connector);
 
-        // Personaliza el contenido del ticket
-        $printer->setJustification(Printer::JUSTIFY_CENTER);
-        $printer->setTextSize(2, 2); // Texto grande
-        $printer->text("$oficina\n");
-        $printer->setTextSize(1, 1); // Texto normal
-        $printer->text("Su numero es:\n");
-        $printer->setTextSize(4, 4); // Texto gigante para el numero
-        $printer->text($numero . "\n");
-        $printer->setTextSize(1, 1);
-        $printer->text("Por favor espere su turno.\n");
-        $printer->text(date('Y-m-d H:i:s') . "\n");
-        $printer->feed(4); // Alimentar 4 líneas
-        $printer->cut(); // Cortar el papel
-        $printer->close();
+            // Personaliza el contenido del ticket
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->setTextSize(1, 1);
+            $printer->text("MUNICIPALIDAD DISTRITAL ALTO DE LA ALIANZA\n");
+            $printer->setTextSize(2, 2); // Texto grande
+            $printer->text("$oficina\n");
+            $printer->setTextSize(1, 1); // Texto normal
+            $printer->text("Su numero es:\n");
+            $printer->setTextSize(4, 4); // Texto gigante para el numero
+            $printer->text($numero . "\n");
+            $printer->setTextSize(1, 1);
+            $printer->text("Por favor espere su turno.\n");
+            $printer->text(date('Y-m-d H:i:s') . "\n");
+            $printer->feed(7); // Alimentar 7 líneas
+            $printer->cut(); // Cortar el papel
+            $printer->close();
 
-    } catch (\Exception $e) {
-        \Log::error("Error al imprimir el ticket: " . $e->getMessage());
-        // Maneja la excepción si la impresora no está disponible
+        } catch (\Exception $e) {
+            \Log::error("Error al imprimir el ticket: " . $e->getMessage());
+            // Maneja la excepción si la impresora no está disponible
+        }
     }
-}
 
 }
