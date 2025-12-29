@@ -5,147 +5,147 @@
 
 // UI Elements
 const elements = {
-    //status call
-    servingLabel: document.querySelector('.serving-label'),
+  //status call
+  servingLabel: document.querySelector('.serving-label'),
 
-    // Customer info
-    customerNumber: document.getElementById('customerNumber'),
-    customerType: document.getElementById('customerType'),
-    customerRut: document.getElementById('customerRut'),
-    waitTime: document.getElementById('waitTime'),
-    
-    // Queue status
-    currentPosition: document.getElementById('currentPosition'),
-    totalQueue: document.getElementById('totalQueue'),
-    
-    // Action buttons
-    attendBtn: document.getElementById('attendBtn'),
-    callServiceBtn: document.getElementById('callServiceBtn'),
-    callBtn: document.getElementById('callBtn'),
-    endServiceBtn: document.getElementById('endServiceBtn'),
-    skipBtn: document.getElementById('skipBtn'),
-    callSkippedBtn: document.getElementById('callSkippedBtn'),
-    transferBtn: document.getElementById('transferBtn'),
-    
-    // Navigation buttons
-    pauseBtn: document.getElementById('pauseBtn'),
-    viewQueueBtn: document.getElementById('viewQueueBtn'),
-    viewReservationsBtn: document.getElementById('viewReservationsBtn'),
-    chatBtn: document.getElementById('chatBtn'),
-    
-    // Modals
-    transferModal: new bootstrap.Modal(document.getElementById('transferModal')),
-    queueModal: new bootstrap.Modal(document.getElementById('queueModal')),
-    
-    // Modal elements
-    serviceSelect: document.getElementById('serviceSelect'),
-    transferNote: document.getElementById('transferNote'),
-    confirmTransferBtn: document.getElementById('confirmTransferBtn'),
-    queueTableBody: document.getElementById('queueTableBody'),
-    
-    // Audio
-    callSound: document.getElementById('callSound')
-  };
-  
-  // Global variables
-  let waitTimeInterval;
-  let isPaused = false;
-  let ticketId;
-  
-  /**
-   * Updates the current customer display
-   * @param {Object} customer - The customer object
-   */
-  function updateCurrentCustomerDisplay(customer) {
-    if (!customer) {
-      elements.customerNumber.textContent = '--';
-      elements.customerType.textContent = 'No hay clientes en espera';
-      elements.customerRut.textContent = '-';
-      elements.waitTime.textContent = '00:00:00';
-      clearInterval(waitTimeInterval);
-      return;
-    }
-    
-    // Apply animation
-    elements.customerNumber.classList.add('pulse');
-    // setTimeout(() => {
-    //   elements.customerNumber.classList.remove('pulse');
-    // }, 500);
-    
-    // Update display
-    elements.customerNumber.textContent = customer.code;
-    elements.customerType.textContent = customer.type;
+  // Customer info
+  customerNumber: document.getElementById('customerNumber'),
+  customerType: document.getElementById('customerType'),
+  customerRut: document.getElementById('customerRut'),
+  waitTime: document.getElementById('waitTime'),
+
+  // Queue status
+  currentPosition: document.getElementById('currentPosition'),
+  totalQueue: document.getElementById('totalQueue'),
+
+  // Action buttons
+  attendBtn: document.getElementById('attendBtn'),
+  callServiceBtn: document.getElementById('callServiceBtn'),
+  callBtn: document.getElementById('callBtn'),
+  endServiceBtn: document.getElementById('endServiceBtn'),
+  skipBtn: document.getElementById('skipBtn'),
+  callSkippedBtn: document.getElementById('callSkippedBtn'),
+  transferBtn: document.getElementById('transferBtn'),
+
+  // Navigation buttons
+  pauseBtn: document.getElementById('pauseBtn'),
+  viewQueueBtn: document.getElementById('viewQueueBtn'),
+  viewReservationsBtn: document.getElementById('viewReservationsBtn'),
+  chatBtn: document.getElementById('chatBtn'),
+
+  // Modals
+  transferModal: new bootstrap.Modal(document.getElementById('transferModal')),
+  queueModal: new bootstrap.Modal(document.getElementById('queueModal')),
+
+  // Modal elements
+  serviceSelect: document.getElementById('serviceSelect'),
+  transferNote: document.getElementById('transferNote'),
+  confirmTransferBtn: document.getElementById('confirmTransferBtn'),
+  queueTableBody: document.getElementById('queueTableBody'),
+
+  // Audio
+  callSound: document.getElementById('callSound')
+};
+
+// Global variables
+let waitTimeInterval;
+let isPaused = false;
+let ticketId;
+
+/**
+ * Updates the current customer display
+ * @param {Object} customer - The customer object
+ */
+function updateCurrentCustomerDisplay(customer) {
+  if (!customer) {
+    elements.customerNumber.textContent = '--';
+    elements.customerType.textContent = 'No hay clientes en espera';
     elements.customerRut.textContent = '-';
-    
-    // Update wait time
-    updateWaitTime(customer.arrivalTime);
-    
-    // Play sound
-    playCallSound();
-  }
-  
-  /**
-   * Updates the wait time display and starts interval
-   * @param {Date} startTime - The arrival time
-   */
-  function updateWaitTime(startTime) {
-    // Clear any existing interval
+    elements.waitTime.textContent = '00:00:00';
     clearInterval(waitTimeInterval);
-    
-    // Update immediately
+    return;
+  }
+
+  // Apply animation
+  elements.customerNumber.classList.add('pulse');
+  // setTimeout(() => {
+  //   elements.customerNumber.classList.remove('pulse');
+  // }, 500);
+
+  // Update display
+  elements.customerNumber.textContent = customer.code;
+  elements.customerType.textContent = customer.type;
+  elements.customerRut.textContent = '-';
+
+  // Update wait time
+  updateWaitTime(customer.arrivalTime);
+
+  // Play sound
+  playCallSound();
+}
+
+/**
+ * Updates the wait time display and starts interval
+ * @param {Date} startTime - The arrival time
+ */
+function updateWaitTime(startTime) {
+  // Clear any existing interval
+  clearInterval(waitTimeInterval);
+
+  // Update immediately
+  elements.waitTime.textContent = window.queueDataService.formatWaitTime(startTime);
+
+  // Set interval to update every second
+  waitTimeInterval = setInterval(() => {
     elements.waitTime.textContent = window.queueDataService.formatWaitTime(startTime);
-    
-    // Set interval to update every second
-    waitTimeInterval = setInterval(() => {
-      elements.waitTime.textContent = window.queueDataService.formatWaitTime(startTime);
-    }, 1000);
-  }
-  
-  /**
-   * Updates the queue status display
-   */
-  function updateQueueStatus() {
-    const waitingCount = window.queueDataService.getWaitingCount();
-    elements.currentPosition.textContent = waitingCount > 0 ? '1' : '0';
-    elements.totalQueue.textContent = waitingCount.toString();
-    
-    // Update queue count on button
-    const queueCountElement = elements.viewQueueBtn.querySelector('.queue-count');
-    queueCountElement.textContent = waitingCount.toString();
-  }
-  
-  /**
-   * Plays the call sound
-   */
-  function playCallSound() {
-    elements.callSound.currentTime = 0;
-    elements.callSound.play().catch(error => {
-      console.log('Audio play prevented by browser policy. User interaction needed first.');
-    });
-  }
-  
-  /**
-   * Updates the queue table in the modal
-   */
-  function updateQueueTable(waitingCustomers = []) {
-    const tbody = elements.queueTableBody;
-    
-    // Clear existing rows
-    tbody.innerHTML = '';
-    
-    if (waitingCustomers.length === 0) {
-      const row = document.createElement('tr');
-      row.innerHTML = `
+  }, 1000);
+}
+
+/**
+ * Updates the queue status display
+ */
+function updateQueueStatus() {
+  const waitingCount = window.queueDataService.getWaitingCount();
+  elements.currentPosition.textContent = waitingCount > 0 ? '1' : '0';
+  elements.totalQueue.textContent = waitingCount.toString();
+
+  // Update queue count on button
+  const queueCountElement = elements.viewQueueBtn.querySelector('.queue-count');
+  queueCountElement.textContent = waitingCount.toString();
+}
+
+/**
+ * Plays the call sound
+ */
+function playCallSound() {
+  elements.callSound.currentTime = 0;
+  elements.callSound.play().catch(error => {
+    console.log('Audio play prevented by browser policy. User interaction needed first.');
+  });
+}
+
+/**
+ * Updates the queue table in the modal
+ */
+function updateQueueTable(waitingCustomers = []) {
+  const tbody = elements.queueTableBody;
+
+  // Clear existing rows
+  tbody.innerHTML = '';
+
+  if (waitingCustomers.length === 0) {
+    const row = document.createElement('tr');
+    row.innerHTML = `
         <td colspan="4" class="text-center">No hay clientes en espera</td>
       `;
-      tbody.appendChild(row);
-      return;
-    }
-    
-    // Add rows for each waiting customer
-    waitingCustomers.forEach(customer => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
+    tbody.appendChild(row);
+    return;
+  }
+
+  // Add rows for each waiting customer
+  waitingCustomers.forEach(customer => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
         <td>${customer.code}</td>
         <td>${customer.type}</td>
         <td>${window.queueDataService.formatWaitTime(customer.arrivalTime)}</td>
@@ -155,68 +155,68 @@ const elements = {
           </button>
         </td>
       `;
-      tbody.appendChild(row);
-      
-      // Add event listener
-      const callNowBtn = row.querySelector('.call-now-btn');
-      callNowBtn.addEventListener('click', () => {
+    tbody.appendChild(row);
 
-        if(ticketId){
-            alert('Ya hay un ticket en atención');
-            return;
-        }
+    // Add event listener
+    const callNowBtn = row.querySelector('.call-now-btn');
+    callNowBtn.addEventListener('click', () => {
 
-        callSpecificCustomer(customer.id);
-        elements.queueModal.hide();
-      });
+      if (ticketId) {
+        alert('Ya hay un ticket en atención');
+        return;
+      }
+
+      callSpecificCustomer(customer.id);
+      elements.queueModal.hide();
     });
+  });
+}
+
+/**
+ * Updates the UI based on paused state
+ */
+function updatePausedState() {
+  if (isPaused) {
+    elements.pauseBtn.innerHTML = '<i class="bi bi-play-fill"></i> Reanudar';
+    elements.pauseBtn.classList.add('btn-warning');
+    document.body.classList.add('system-paused');
+  } else {
+    elements.pauseBtn.innerHTML = '<i class="bi bi-pause-fill"></i> Pausar';
+    elements.pauseBtn.classList.remove('btn-warning');
+    document.body.classList.remove('system-paused');
   }
-  
-  /**
-   * Updates the UI based on paused state
-   */
-  function updatePausedState() {
-    if (isPaused) {
-      elements.pauseBtn.innerHTML = '<i class="bi bi-play-fill"></i> Reanudar';
-      elements.pauseBtn.classList.add('btn-warning');
-      document.body.classList.add('system-paused');
-    } else {
-      elements.pauseBtn.innerHTML = '<i class="bi bi-pause-fill"></i> Pausar';
-      elements.pauseBtn.classList.remove('btn-warning');
-      document.body.classList.remove('system-paused');
-    }
+}
+
+/**
+ * Calls a specific customer by ID
+ * @param {String} customerId - The ID of the customer to call
+ */
+function callSpecificCustomer(customerId) {
+  const waitingCustomers = window.queueDataService.getWaitingCustomers();
+  const currentCustomer = window.queueDataService.getCurrentCustomer();
+
+  // If there's already a customer being served, put them back in waiting
+  if (currentCustomer) {
+    currentCustomer.status = 'waiting';
   }
-  
-  /**
-   * Calls a specific customer by ID
-   * @param {String} customerId - The ID of the customer to call
-   */
-  function callSpecificCustomer(customerId) {
-    const waitingCustomers = window.queueDataService.getWaitingCustomers();
-    const currentCustomer = window.queueDataService.getCurrentCustomer();
-    
-    // If there's already a customer being served, put them back in waiting
-    if (currentCustomer) {
-      currentCustomer.status = 'waiting';
-    }
-    
-    // Find the customer by ID
-    //const customerToCall = waitingCustomers.find(c => c.id === customerId);
-    if (customerId) {
-      //update on server
-      fetch('/colasv2/llamar-ticket', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify({
-          ticket_id: customerId
-        })
+
+  // Find the customer by ID
+  //const customerToCall = waitingCustomers.find(c => c.id === customerId);
+  if (customerId) {
+    //update on server
+    fetch(llamarTicketUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      },
+      body: JSON.stringify({
+        ticket_id: customerId
       })
+    })
       .then((response) => {
         if (response.ok) {
-            return response.json();
+          return response.json();
         }
         return Promise.reject(response);
       })
@@ -236,43 +236,43 @@ const elements = {
         console.error('Error al llamar al cliente:', error);
         alert('Error al llamar al cliente. Intente nuevamente.');
       });
-      //customerToCall.status = 'serving';
-    }
+    //customerToCall.status = 'serving';
   }
-  
-  // Initialize UI
-  function initializeUI() {
-    // Set initial customer
-    const currentCustomer = window.queueDataService.getCurrentCustomer();
-    updateCurrentCustomerDisplay(currentCustomer);
-    
-    // Set initial queue status
-    updateQueueStatus();
-    
-    // Set up event listeners
+}
 
-    elements.attendBtn.addEventListener('click', () => {
-      //const currentCustomer = window.queueDataService.getCurrentCustomer();
-      // if (currentCustomer) {
-      //   playCallSound();
-      //   elements.customerNumber.classList.add('pulse');
-      //   setTimeout(() => {
-      //     elements.customerNumber.classList.remove('pulse');
-      //   }, 500);
-      // }
-      fetch('/colasv2/atender-ticket', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify({
-          ticket_id: ticketId
-        })
+// Initialize UI
+function initializeUI() {
+  // Set initial customer
+  const currentCustomer = window.queueDataService.getCurrentCustomer();
+  updateCurrentCustomerDisplay(currentCustomer);
+
+  // Set initial queue status
+  updateQueueStatus();
+
+  // Set up event listeners
+
+  elements.attendBtn.addEventListener('click', () => {
+    //const currentCustomer = window.queueDataService.getCurrentCustomer();
+    // if (currentCustomer) {
+    //   playCallSound();
+    //   elements.customerNumber.classList.add('pulse');
+    //   setTimeout(() => {
+    //     elements.customerNumber.classList.remove('pulse');
+    //   }, 500);
+    // }
+    fetch(atenderTicketUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      },
+      body: JSON.stringify({
+        ticket_id: ticketId
       })
+    })
       .then((response) => {
         if (response.ok) {
-            return response.json();
+          return response.json();
         }
         return Promise.reject(response);
       })
@@ -292,34 +292,34 @@ const elements = {
         alert('Error al llamar al cliente. Intente nuevamente.');
       });
 
-    });
+  });
 
-    elements.callBtn.addEventListener('click', () => {
-      const currentCustomer = window.queueDataService.getCurrentCustomer();
-      if (currentCustomer) {
-        playCallSound();
-        elements.customerNumber.classList.add('pulse');
-        setTimeout(() => {
-          elements.customerNumber.classList.remove('pulse');
-        }, 500);
-      }
-    });
-    
-    elements.endServiceBtn.addEventListener('click', () => {
-      //const nextCustomer = window.queueDataService.finishCurrentService();
-      fetch('/colasv2/terminar-ticket', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify({
-          ticket_id: ticketId
-        })
+  elements.callBtn.addEventListener('click', () => {
+    const currentCustomer = window.queueDataService.getCurrentCustomer();
+    if (currentCustomer) {
+      playCallSound();
+      elements.customerNumber.classList.add('pulse');
+      setTimeout(() => {
+        elements.customerNumber.classList.remove('pulse');
+      }, 500);
+    }
+  });
+
+  elements.endServiceBtn.addEventListener('click', () => {
+    //const nextCustomer = window.queueDataService.finishCurrentService();
+    fetch(terminarTicketUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      },
+      body: JSON.stringify({
+        ticket_id: ticketId
       })
+    })
       .then((response) => {
         if (response.ok) {
-            return response.json();
+          return response.json();
         }
         return Promise.reject(response);
       })
@@ -337,68 +337,68 @@ const elements = {
       .catch(error => {
         alert(error.message);
       });
-    });
-    
-    elements.skipBtn.addEventListener('click', () => {
-      const nextCustomer = window.queueDataService.skipCurrentCustomer();
-      updateCurrentCustomerDisplay(nextCustomer);
-      updateQueueStatus();
-    });
-    
-    // elements.callSkippedBtn.addEventListener('click', () => {
-    //   const skippedCustomers = window.queueDataService.getSkippedCustomers();
-      
-    //   if (skippedCustomers.length > 0) {
-    //     // For simplicity, just call the first skipped customer
-    //     const calledCustomer = window.queueDataService.callSkippedCustomer(skippedCustomers[0].id);
-    //     updateCurrentCustomerDisplay(calledCustomer);
-    //     updateQueueStatus();
-    //   } else {
-    //     alert('No hay clientes saltados para llamar');
-    //   }
-    // });
-    
-    elements.transferBtn.addEventListener('click', () => {
-      elements.transferModal.show();
-    });
-    
-    elements.confirmTransferBtn.addEventListener('click', () => {
-      const serviceId = elements.serviceSelect.value;
-      const note = elements.transferNote.value;
-      
-      const nextCustomer = window.queueDataService.transferCurrentCustomer(serviceId, note);
-      updateCurrentCustomerDisplay(nextCustomer);
-      updateQueueStatus();
-      
-      // Reset and close modal
-      elements.transferNote.value = '';
-      elements.transferModal.hide();
-    });
-    
-    elements.viewQueueBtn.addEventListener('click', () => {
-      //updateQueueTable();
-      elements.queueModal.show();
-    });
-    
-    elements.pauseBtn.addEventListener('click', () => {
-      isPaused = !isPaused;
-      updatePausedState();
-    });
-    
-    // Just show alert for demo purposes
-    elements.viewReservationsBtn.addEventListener('click', () => {
-      alert('Vista de reservas no implementada en esta demostración');
-    });
-    
-    elements.chatBtn.addEventListener('click', () => {
-      alert('Chat no implementado en esta demostración');
-    });
-  }
-  
-  // Export the UI module API
-  window.queueUI = {
-    initializeUI,
-    updateCurrentCustomerDisplay,
-    updateQueueStatus,
-    playCallSound
-  };
+  });
+
+  elements.skipBtn.addEventListener('click', () => {
+    const nextCustomer = window.queueDataService.skipCurrentCustomer();
+    updateCurrentCustomerDisplay(nextCustomer);
+    updateQueueStatus();
+  });
+
+  // elements.callSkippedBtn.addEventListener('click', () => {
+  //   const skippedCustomers = window.queueDataService.getSkippedCustomers();
+
+  //   if (skippedCustomers.length > 0) {
+  //     // For simplicity, just call the first skipped customer
+  //     const calledCustomer = window.queueDataService.callSkippedCustomer(skippedCustomers[0].id);
+  //     updateCurrentCustomerDisplay(calledCustomer);
+  //     updateQueueStatus();
+  //   } else {
+  //     alert('No hay clientes saltados para llamar');
+  //   }
+  // });
+
+  elements.transferBtn.addEventListener('click', () => {
+    elements.transferModal.show();
+  });
+
+  elements.confirmTransferBtn.addEventListener('click', () => {
+    const serviceId = elements.serviceSelect.value;
+    const note = elements.transferNote.value;
+
+    const nextCustomer = window.queueDataService.transferCurrentCustomer(serviceId, note);
+    updateCurrentCustomerDisplay(nextCustomer);
+    updateQueueStatus();
+
+    // Reset and close modal
+    elements.transferNote.value = '';
+    elements.transferModal.hide();
+  });
+
+  elements.viewQueueBtn.addEventListener('click', () => {
+    //updateQueueTable();
+    elements.queueModal.show();
+  });
+
+  elements.pauseBtn.addEventListener('click', () => {
+    isPaused = !isPaused;
+    updatePausedState();
+  });
+
+  // Just show alert for demo purposes
+  elements.viewReservationsBtn.addEventListener('click', () => {
+    alert('Vista de reservas no implementada en esta demostración');
+  });
+
+  elements.chatBtn.addEventListener('click', () => {
+    alert('Chat no implementado en esta demostración');
+  });
+}
+
+// Export the UI module API
+window.queueUI = {
+  initializeUI,
+  updateCurrentCustomerDisplay,
+  updateQueueStatus,
+  playCallSound
+};

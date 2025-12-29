@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -138,10 +139,11 @@
     }
   </style>
 </head>
+
 <body>
   <div class="company-header">
     <!-- <img src="https://images.pexels.com/photos/3756679/pexels-photo-3756679.jpeg?auto=compress&cs=tinysrgb&w=60" alt="Logo" class="company-logo"> -->
-    <img src="/colas/images/muni.png" alt="Logo" class="company-logo" style="width: 70px !important;">
+    <img src="{{ asset('/colas/images/muni.png') }}" alt="Logo" class="company-logo" style="width: 70px !important;">
     <h1 class="company-name">Municipalidad Distrital Alto de la Alianza</h1>
   </div>
 
@@ -149,29 +151,29 @@
     <div class="buttons-container">
 
       @foreach($offices as $office)
-      <button class="service-btn" onclick="generateTicket('{{$office->id}}')">
-        {{ucfirst(strtolower($office->name))}}
-        {!! $office->icon !!}
-      </button>
+        <button class="service-btn" onclick="generateTicket('{{$office->id}}')">
+          {{ucfirst(strtolower($office->name))}}
+          {!! $office->icon !!}
+        </button>
       @endforeach
 
-      {{-- 
+      {{--
       <button class="service-btn" onclick="generateTicket('ATG')">
         Atención General
         <i class="bi bi-people-fill"></i>
       </button>
-      
+
       <button class="service-btn" onclick="generateTicket('ATP')">
         Atención Prioritaria
         <i class="bi bi-heart-fill"></i>
       </button>
-      
+
       <button class="service-btn" onclick="generateTicket('CAJ')">
         Caja de Pagos
         <i class="bi bi-cash"></i>
       </button>
       --}}
-      
+
       {{--
       <button class="service-btn" onclick="generateTicket('SES')">
         Servicios Especiales
@@ -215,60 +217,61 @@
 
     function generateTicket(type) {
 
-        fetch('/colasv2', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-            },
-            body: JSON.stringify({ type })
-        })
+      fetch('{{ url('/colasv2') }}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({ type })
+      })
         .then(response => response.json())
         .then(data => {
-            document.getElementById('ticketNumber').textContent = data.ticketNumber;
-            // document.getElementById('estimatedTime').textContent = 
-            //     `Tiempo estimado de espera: ${data.estimatedTime} minutos`;
-            const ticketModal = new bootstrap.Modal(document.getElementById('ticketModal'));
-            ticketModal.show();
-            document.getElementById('printSound').play().catch(error => {
-                console.log('Audio play prevented by browser policy. User interaction needed first.');
-            });
+          document.getElementById('ticketNumber').textContent = data.ticketNumber;
+          // document.getElementById('estimatedTime').textContent = 
+          //     `Tiempo estimado de espera: ${data.estimatedTime} minutos`;
+          const ticketModal = new bootstrap.Modal(document.getElementById('ticketModal'));
+          ticketModal.show();
+          document.getElementById('printSound').play().catch(error => {
+            console.log('Audio play prevented by browser policy. User interaction needed first.');
+          });
 
-            setTimeout(() => {
-                ticketModal.hide();
-            }, 3000);
+          setTimeout(() => {
+            ticketModal.hide();
+          }, 3000);
         })
         .catch(error => {
-            console.error('Error generating ticket:', error);
+          console.error('Error generating ticket:', error);
         });
 
-    //   ticketCounts[type]++;
-      
-    //   const prefixes = {
-    //     'ATG': 'R',
-    //     'ATP': 'P',
-    //     'CAJ': 'C',
-    //     'SES': 'S'
-    //   };
-      
-    //   const ticketNumber = `${prefixes[type]}${String(ticketCounts[type]).padStart(2, '0')}`;
-      
-    //   // Update modal content
-    //   document.getElementById('ticketNumber').textContent = ticketNumber;
-    //   document.getElementById('estimatedTime').textContent = 
-    //     `Tiempo estimado de espera: ${Math.floor(Math.random() * 15) + 5} minutos`;
-      
-    //   // Show modal
-    //   const ticketModal = new bootstrap.Modal(document.getElementById('ticketModal'));
-    //   ticketModal.show();
-      
-    //   // Play print sound
-    //   document.getElementById('printSound').play().catch(error => {
-    //     console.log('Audio play prevented by browser policy. User interaction needed first.');
-    //   });
-      
+      //   ticketCounts[type]++;
+
+      //   const prefixes = {
+      //     'ATG': 'R',
+      //     'ATP': 'P',
+      //     'CAJ': 'C',
+      //     'SES': 'S'
+      //   };
+
+      //   const ticketNumber = `${prefixes[type]}${String(ticketCounts[type]).padStart(2, '0')}`;
+
+      //   // Update modal content
+      //   document.getElementById('ticketNumber').textContent = ticketNumber;
+      //   document.getElementById('estimatedTime').textContent = 
+      //     `Tiempo estimado de espera: ${Math.floor(Math.random() * 15) + 5} minutos`;
+
+      //   // Show modal
+      //   const ticketModal = new bootstrap.Modal(document.getElementById('ticketModal'));
+      //   ticketModal.show();
+
+      //   // Play print sound
+      //   document.getElementById('printSound').play().catch(error => {
+      //     console.log('Audio play prevented by browser policy. User interaction needed first.');
+      //   });
+
       // Auto close modal after 3 seconds
     }
   </script>
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,9 @@
   <title>Sistema de Colas</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="/colas/panel/css/styles.css">
+  <link rel="stylesheet" href="{{ asset('/colas/panel/css/styles.css') }}">
 </head>
+
 <body>
   <div class="container-fluid p-0">
     <!-- Header Bar -->
@@ -22,7 +24,7 @@
         <div class="agent-info">
           <span class="ticket-number">Usuario</span>
           <span class="agent-name text-capitalize">{{ strtolower($user_name) }}</span>
-          <a class="btn-close text-white" href="/logout"></a>
+          <a class="btn-close text-white" href="{{ url('/logout') }}"></a>
         </div>
       </div>
     </header>
@@ -35,7 +37,7 @@
           <div class="serving-label"></div>
           <div class="customer-number" id="customerNumber">P18</div>
           <div class="customer-type" id="customerType">Preferencial</div>
-          
+
           <div class="customer-info mt-4">
             <div class="info-row">
               <div class="info-label">
@@ -43,7 +45,7 @@
               </div>
               <div class="info-value" id="customerRut">-</div>
             </div>
-            
+
             <div class="info-row">
               <div class="info-label">
                 <i class="bi bi-clock"></i> Espera:
@@ -53,7 +55,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Right Panel - Actions -->
       <div class="col-lg-6 actions-panel">
         <!-- Queue Status -->
@@ -63,7 +65,7 @@
             Rellamar <i class="bi bi-volume-up"></i>
           </button>
         </div>
-        
+
         <!-- Action Buttons -->
         <div class="action-buttons">
           <button class="action-btn call-btn" id="callServiceBtn">
@@ -77,15 +79,15 @@
           <button class="action-btn end-btn" id="endServiceBtn" disabled>
             Terminar atención <i class="bi bi-x-lg"></i>
           </button>
-          
+
           <button class="action-btn skip-btn" id="skipBtn" disabled>
             Saltar número <i class="bi bi-trash"></i>
           </button>
-          
+
           <!-- <button class="action-btn call-skipped-btn" id="callSkippedBtn">
             Llamar Saltado <i class="bi bi-pencil-square"></i>
           </button> -->
-          
+
           <button class="action-btn transfer-btn" id="transferBtn" disabled>
             Derivar Número <i class="bi bi-arrow-right"></i>
           </button>
@@ -99,11 +101,11 @@
         <button class="footer-btn view-queue-btn" id="viewQueueBtn">
           <i class="bi bi-people-fill"></i> Ver en fila <span class="queue-count">0</span>
         </button>
-        
+
         <button class="footer-btn view-reservations-btn d-none" id="viewReservationsBtn">
           <i class="bi bi-calendar-check"></i> Ver Reservas
         </button>
-        
+
         <button class="footer-btn chat-btn d-none" id="chatBtn">
           <i class="bi bi-chat-dots-fill"></i> Chat
         </button>
@@ -172,57 +174,63 @@
 
   <!-- Sound for notifications -->
   <audio id="callSound" src="https://assets.mixkit.co/active_storage/sfx/933/933-preview.mp3"></audio>
-  
+
+  <script>
+    const atenderTicketUrl = '{{ url('/colasv2/atender-ticket') }}';
+    const terminarTicketUrl = '{{ url('/colasv2/terminar-ticket') }}';
+    const llamarTicketUrl = '{{ url('/colasv2/llamar-ticket') }}';
+  </script>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="/colas/panel/js/data.js"></script>
-  <script src="/colas/panel/js/ui.js"></script>
-  <script src="/colas/panel/js/queue.js"></script>
+  <script src="{{ asset('/colas/panel/js/data.js') }}"></script>
+  <script src="{{ asset('/colas/panel/js/ui.js') }}"></script>
+  <script src="{{ asset('/colas/panel/js/queue.js') }}"></script>
 
 
   <script>
 
-    fetch('/colasv2/current-ticket')
-        .then(response => response.json())
-        .then(data => {
-            currentTicketData = data.ticket;
-            ticketId = data.ticket.id;
+    fetch('{{ url('/colasv2/current-ticket') }}')
+      .then(response => response.json())
+      .then(data => {
+        currentTicketData = data.ticket;
+        ticketId = data.ticket.id;
 
-            if(currentTicketData){
-              //llamando
-              if(currentTicketData.status == 1){
-                elements.servingLabel.textContent = 'Llamando a';
-                updateCurrentCustomerDisplay(data.ticket);
-                elements.callServiceBtn.disabled = true;
-                elements.attendBtn.disabled = false;
-              }
-              
-              //terminado
-              if(currentTicketData.status == 2){
-                elements.servingLabel.textContent = 'Atendiendo a';
-                updateCurrentCustomerDisplay(data.ticket);
-                elements.callServiceBtn.disabled = true;
-                elements.attendBtn.disabled = true;
-                elements.endServiceBtn.disabled = false;
-              }        
-            }
+        if (currentTicketData) {
+          //llamando
+          if (currentTicketData.status == 1) {
+            elements.servingLabel.textContent = 'Llamando a';
+            updateCurrentCustomerDisplay(data.ticket);
+            elements.callServiceBtn.disabled = true;
+            elements.attendBtn.disabled = false;
+          }
 
-        });
+          //terminado
+          if (currentTicketData.status == 2) {
+            elements.servingLabel.textContent = 'Atendiendo a';
+            updateCurrentCustomerDisplay(data.ticket);
+            elements.callServiceBtn.disabled = true;
+            elements.attendBtn.disabled = true;
+            elements.endServiceBtn.disabled = false;
+          }
+        }
+
+      });
 
     setInterval(() => {
 
-        fetch('/colasv2/enespera')
-            .then(response => response.json())
-            .then(data => {
-                //console.log(data);
-                queueData = data.tickets_waiting;
-                document.querySelector('.queue-count').textContent = data.tickets_waiting.length;
-                updateQueueTable(data.tickets_waiting);
-            });
-        //console.log('hola');
+      fetch('{{ url('/colasv2/enespera') }}')
+        .then(response => response.json())
+        .then(data => {
+          //console.log(data);
+          queueData = data.tickets_waiting;
+          document.querySelector('.queue-count').textContent = data.tickets_waiting.length;
+          updateQueueTable(data.tickets_waiting);
+        });
+      //console.log('hola');
     }, 5000);
 
     document.getElementById('callServiceBtn').addEventListener('click', () => {
-      fetch('/colasv2/siguiente-ticket', {
+      fetch('{{ url('/colasv2/siguiente-ticket') }}', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -231,30 +239,31 @@
         body: JSON.stringify({
         })
       })
-      .then((response) => {
-        if (response.ok) {
+        .then((response) => {
+          if (response.ok) {
             return response.json();
-        }
-        return Promise.reject(response);
-      })
-      .then(data => {
-        elements.servingLabel.textContent = 'Llamando a';
-        updateCurrentCustomerDisplay(data.ticket);
-        ticketId = data.ticket.id;
-        updateQueueStatus();
+          }
+          return Promise.reject(response);
+        })
+        .then(data => {
+          elements.servingLabel.textContent = 'Llamando a';
+          updateCurrentCustomerDisplay(data.ticket);
+          ticketId = data.ticket.id;
+          updateQueueStatus();
 
-        elements.callServiceBtn.disabled = true;
-        elements.attendBtn.disabled = false;
-      })
-      .catch(error => {
-        error.json().then((json) => {
-          alert(json.message);
+          elements.callServiceBtn.disabled = true;
+          elements.attendBtn.disabled = false;
+        })
+        .catch(error => {
+          error.json().then((json) => {
+            alert(json.message);
+          });
         });
-      });
 
 
     });
 
   </script>
 </body>
+
 </html>
